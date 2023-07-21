@@ -1,0 +1,1 @@
+# SplendidCRM-Professional-Core
