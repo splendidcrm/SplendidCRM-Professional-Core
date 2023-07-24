@@ -1,0 +1,140 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>React\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**;$(SpaRoot)platforms\**;$(SpaRoot)plugins\**</DefaultItemExcludes>
+    <Company>SplendidCRM Software, Inc.</Company>
+    <Copyright>Copyright (C) 2005-2023 SplendidCRM, Inc.  All rights reserved.</Copyright>
+    <Authors>SplendidCRM Software, Inc.</Authors>
+    <VersionSuffix>14.7.$([System.DateTime]::Now.ToString(yy))$([System.DateTime]::Now.DayOfYear.ToString(000)).$([System.DateTime]::Now.ToString(HHmm))</VersionSuffix>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">14.7.1.0</AssemblyVersion>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
+    <Version Condition=" '$(VersionSuffix)' == '' ">14.7.1.0</Version>
+    <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
+    <AssemblyName>SplendidCRM_Core</AssemblyName>
+    <RootNamespace>SplendidCRM_Core</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;ReactOnlyUI</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;ReactOnlyUI</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
+    <PackageReference Include="Google.Apis" Version="1.61.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.61.0" />
+    <PackageReference Include="Google.Apis.Core" Version="1.61.0" />
+    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.61.0.3098" />
+    <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0" />
+    <PackageReference Include="MailKit" Version="4.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="5.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.12" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.8.0" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.22.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.WsFederation" Version="6.31.0" />
+    <PackageReference Include="Mnt.Microsoft.Exchange.WebServices.Data" Version="2.2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.17" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
+    <PackageReference Include="Twilio" Version="6.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Angular\**" />
+    <Compile Remove="Controllers\Administration\Professional\**" />
+    <Compile Remove="Controllers\Professional\**" />
+    <Compile Remove="React\**" />
+    <Compile Remove="_code\Google.Apis\**" />
+    <Compile Remove="_code\SignalR\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Angular\**" />
+    <Content Remove="Controllers\Administration\Professional\**" />
+    <Content Remove="Controllers\Professional\**" />
+    <Content Remove="React\**" />
+    <Content Remove="_code\Google.Apis\**" />
+    <Content Remove="_code\SignalR\**" />
+    <EmbeddedResource Remove="Angular\**" />
+    <EmbeddedResource Remove="Controllers\Administration\Professional\**" />
+    <EmbeddedResource Remove="Controllers\Professional\**" />
+    <EmbeddedResource Remove="React\**" />
+    <EmbeddedResource Remove="_code\Google.Apis\**" />
+    <EmbeddedResource Remove="_code\SignalR\**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Remove="Angular\**" />
+    <None Remove="Controllers\Administration\Professional\**" />
+    <None Remove="Controllers\Professional\**" />
+    <None Remove="React\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)platforms\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)pluginss\**" />
+    <None Remove="React\node_modules\**" />
+    <None Remove="React\platforms\**" />
+    <None Remove="React\plugins\**" />
+    <None Remove="React\dist\**" />
+    <None Remove="_code\Google.Apis\**" />
+    <None Remove="_code\SignalR\**" />
+    <None Remove="_sgbak\**" />
+    <None Remove="**\_sgbak\**" />
+    <Compile Remove="Controllers\Administration\Asterisk\RestController.cs" />
+    <Compile Remove="_code\PayPal\PayPalAPI.cs" />
+    <Compile Remove="_code\PayPal\PayPalSvc.cs" />
+    <None Remove="React\yarn-error.log" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="_code\Google.Apis\Contacts.v3\ClientServiceRequestWithETag.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\ContactsBaseServiceRequest.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\ContactsResource.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\ContactsService.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\Contact.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\ContactEntry.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\ContactFeed.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\Contacts.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\FeedValues.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\Group.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\GroupEntry.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\GroupFeed.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\Groups.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\Data\HttpRequestMessageExtenstions.cs" />
+    <Compile Include="_code\Google.Apis\Contacts.v3\GroupsResource.cs" />
+    <Compile Include="_code\Google.Apis\Google.Apis.Calendar.v3.cs" />
+    <Compile Include="_code\SignalR\TwilioManager.cs" />
+    <Compile Include="_code\SignalR\TwilioManagerHub.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\BackupBinCore5\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPal">
+      <HintPath>..\BackupBinCore5\PayPal.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Rest">
+      <HintPath>..\BackupBinCore5\Spring.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Social.Core">
+      <HintPath>..\BackupBinCore5\Spring.Social.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\BackupBinCore5\Common.Logging.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\Administration\Asterisk\" />
+  </ItemGroup>
+</Project>
