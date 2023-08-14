@@ -67,7 +67,7 @@ namespace SplendidCRM.Controllers.Import
 			this.XmlUtil             = XmlUtil            ;
 		}
 
-		[HttpPost("[action]")]
+		[HttpGet("[action]")]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
 		public Dictionary<string, object> GetImportSettings(string ImportModule)
 		{
@@ -117,7 +117,7 @@ namespace SplendidCRM.Controllers.Import
 			return d;
 		}
 
-		[HttpPost("[action]")]
+		[HttpGet("[action]")]
 		public Dictionary<string, object> GetImportMaps(string ImportModule)
 		{
 			int nACLACCESS = Security.GetUserAccess(ImportModule, "import");
@@ -167,7 +167,7 @@ namespace SplendidCRM.Controllers.Import
 			return dictResponse;
 		}
 
-		[HttpPost("[action]")]
+		[HttpGet("[action]")]
 		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
 		public Dictionary<string, object> GetImportItem(string ImportModule, Guid ID)
 		{
@@ -489,6 +489,21 @@ namespace SplendidCRM.Controllers.Import
 				}
 			}
 			
+			// 09/17/2013 Paul.  Add Business Rules to import. 
+			DataTable dtRules = CreateRulesTable(dict);
+			StringBuilder sbRulesXML = new StringBuilder();
+			if ( dtRules != null && dtRules.Rows.Count > 0 )
+			{
+				SplendidRulesTypeProvider typeProvider = new SplendidRulesTypeProvider();
+				RuleValidation validation = new RuleValidation(typeof(SplendidImportThis), typeProvider);
+				RuleSet rules = RulesUtil.BuildRuleSet(dtRules, validation);
+				
+				string sXOML = RulesUtil.Serialize(rules);
+				using ( StringWriter wtr = new StringWriter(sbRulesXML, System.Globalization.CultureInfo.InvariantCulture) )
+				{
+					dtRules.WriteXml(wtr, XmlWriteMode.WriteSchema, false);
+				}
+			}
 			//Debug.WriteLine(sbRulesXML.ToString());
 			//Debug.WriteLine(xmlMapping.OuterXml);
 			SqlProcs.spIMPORT_MAPS_Update
@@ -500,7 +515,7 @@ namespace SplendidCRM.Controllers.Import
 				, bHAS_HEADER
 				, bIS_PUBLISHED
 				, xmlMapping.OuterXml
-				, String.Empty // sbRulesXML.ToString()
+				, sbRulesXML.ToString()
 				);
 			Dictionary<string, object> d = new Dictionary<string, object>();
 			d.Add("d", gID);

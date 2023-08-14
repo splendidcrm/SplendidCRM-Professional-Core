@@ -56,7 +56,9 @@ namespace Spring.Social.Office365.Api
 		}
 
 		// 07/03/2023 Paul.  Obsolete in Core 5. 
-		//[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+#pragma warning disable SYSLIB0003
+		[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+#pragma warning restore SYSLIB0003
 		public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			base.GetObjectData(info, context);

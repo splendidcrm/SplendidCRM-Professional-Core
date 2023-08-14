@@ -255,12 +255,12 @@ namespace Spring.Social.HubSpot
 			}
 		}
 
-		private static DateTime DefaultCacheExpiration()
+		private DateTime DefaultCacheExpiration()
 		{
 			return DateTime.Now.AddHours(12);
 		}
 
-		private static DataTable ACCOUNTS_SYNC(SplendidCRM.DbProviderFactory dbf, IDbConnection con, Guid gUSER_ID)
+		private DataTable ACCOUNTS_SYNC(SplendidCRM.DbProviderFactory dbf, IDbConnection con, Guid gUSER_ID)
 		{
 			DataTable dt = new DataTable();
 			string sSQL = String.Empty;

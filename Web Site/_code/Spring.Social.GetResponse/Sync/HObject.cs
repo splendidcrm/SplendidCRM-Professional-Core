@@ -33,6 +33,15 @@ namespace Spring.Social.GetResponse
 {
 	public class HObject
 	{
+		protected SplendidCRM.DbProviderFactories  DbProviderFactories = new SplendidCRM.DbProviderFactories();
+		protected HttpApplicationState Application        = new HttpApplicationState();
+		protected HttpSessionState     Session            ;
+		protected Security             Security           ;
+		protected Sql                  Sql                ;
+		protected SqlProcs             SqlProcs           ;
+		protected ExchangeSecurity     ExchangeSecurity   ;
+		protected SyncError            SyncError          ;
+
 		#region Properties
 		protected Spring.Social.GetResponse.Api.IGetResponse getResponse;
 		public string   GetResponseTableName;
@@ -75,8 +84,15 @@ namespace Spring.Social.GetResponse
 		}
 		#endregion
 
-		public HObject(Spring.Social.GetResponse.Api.IGetResponse getResponse, string sGetResponseTableName, string sGetResponseTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
+		public HObject(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.GetResponse.Api.IGetResponse getResponse, string sGetResponseTableName, string sGetResponseTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
 		{
+			this.Session             = Session            ;
+			this.Security            = Security           ;
+			this.Sql                 = Sql                ;
+			this.SqlProcs            = SqlProcs           ;
+			this.ExchangeSecurity    = ExchangeSecurity   ;
+			this.SyncError           = SyncError          ;
+
 			this.getResponse          = getResponse          ;
 			this.GetResponseTableName = sGetResponseTableName;
 			this.GetResponseTableSort = sGetResponseTableSort;

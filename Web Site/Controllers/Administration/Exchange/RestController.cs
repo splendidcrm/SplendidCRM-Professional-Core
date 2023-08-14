@@ -360,7 +360,7 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 								if ( bSentItemsSync )
 								{
 									// 03/13/2012 Paul.  Move SyncSentItems into a thread as it can take a long time to work. 
-									//ExchangeSync.SyncSentItems(Context, Session, service, con, sEXCHANGE_ALIAS, gUSER_ID, true, DateTime.MinValue, sbErrors);
+									//ExchangeSync.SyncSentItems(Session, service, con, sEXCHANGE_ALIAS, gUSER_ID, true, DateTime.MinValue, sbErrors);
 									sbErrors.Append(L10n.Term("Users.LBL_SYNC_BACKGROUND"));
 									System.Threading.Thread t = new System.Threading.Thread(User.SyncSentItems);
 									t.Start();
@@ -460,7 +460,7 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 								if ( bSentItemsSync )
 								{
 									// 03/13/2012 Paul.  Move SyncSentItems into a thread as it can take a long time to work. 
-									//ExchangeSync.SyncSentItems(Context, Session, service, con, sEXCHANGE_ALIAS, gUSER_ID, true, DateTime.MinValue, sbErrors);
+									//ExchangeSync.SyncSentItems(Session, service, con, sEXCHANGE_ALIAS, gUSER_ID, true, DateTime.MinValue, sbErrors);
 									sbErrors.Append(L10n.Term("Users.LBL_SYNC_BACKGROUND"));
 									System.Threading.Thread t = new System.Threading.Thread(User.SyncSentItems);
 									t.Start();

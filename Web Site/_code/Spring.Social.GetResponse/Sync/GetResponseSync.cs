@@ -174,7 +174,7 @@ namespace Spring.Social.GetResponse
 			}
 		}
 
-		private static DateTime DefaultCacheExpiration()
+		private DateTime DefaultCacheExpiration()
 		{
 			return DateTime.Now.AddHours(12);
 		}
@@ -221,7 +221,7 @@ namespace Spring.Social.GetResponse
 						string sSYNC_MODULES = Sql.ToString(Application["CONFIG.GetResponse.SyncModules"]);
 						if ( sSYNC_MODULES == "Contacts" )
 						{
-							GetResponse.Contact contact = new GetResponse.Contact(getResponse);
+							GetResponse.Contact contact = new GetResponse.Contact(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, getResponse);
 							if ( !bInsideContacts )
 							{
 								try
@@ -237,7 +237,7 @@ namespace Spring.Social.GetResponse
 						}
 						else // if ( sSYNC_MODULES == "Leads" )
 						{
-							GetResponse.Lead lead = new GetResponse.Lead(getResponse);
+							GetResponse.Lead lead = new GetResponse.Lead(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, getResponse);
 							if ( !bInsideContacts )
 							{
 								try
@@ -320,7 +320,7 @@ namespace Spring.Social.GetResponse
 				foreach ( Spring.Social.GetResponse.Api.Contact qb in lst )
 				{
 					qo.SetFromGetResponse(qb);
-					bool bImported = qo.Import(Context, Session, con, gUSER_ID, sDIRECTION, sbErrors);
+					bool bImported = qo.Import(Session, con, gUSER_ID, sDIRECTION, sbErrors);
 				}
 				*/
 				

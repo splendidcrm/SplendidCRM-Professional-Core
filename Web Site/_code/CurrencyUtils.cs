@@ -26,6 +26,8 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Diagnostics;
 
 using Microsoft.AspNetCore.Http;
@@ -69,8 +71,15 @@ namespace SplendidCRM
 			this.SplendidDynamic     = SplendidDynamic    ;
 		}
 
+#pragma warning disable CS1998
+		public async ValueTask UpdateRates(CancellationToken token)
+		{
+			UpdateRates();
+		}
+#pragma warning restore CS1998
+
 		// 05/02/2016 Paul.  Create a scheduler to ensure that the currencies are always correct. 
-		public void UpdateRates(Object sender)
+		public void UpdateRates()
 		{
 			if ( !bInsideUpdateRates && !Sql.IsEmptyString(Application["CONFIG.CurrencyLayer.AccessKey"]))
 			{

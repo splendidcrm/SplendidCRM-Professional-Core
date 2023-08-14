@@ -171,6 +171,7 @@ namespace SplendidCRM
 			services.AddScoped<ImapUtils>();
 			services.AddScoped<PopUtils>();
 			services.AddScoped<ExchangeUtils>();
+			services.AddScoped<SplendidControl>();
 			services.AddScoped<ImportUtils>();
 			services.AddScoped<LanguagePackImport>();
 			services.AddScoped<SyncError>();

@@ -50,6 +50,8 @@ namespace SplendidCRM
 	/// </summary>
 	public partial class RdlUtil
 	{
+		// 08/12/2023 Paul.  Don't need ReportParameterThis. 
+		/*
 		public class ReportParameterThis : SqlObj
 		{
 			private object   oValue   ;
@@ -65,6 +67,7 @@ namespace SplendidCRM
 				set { oValue = value; }
 			}
 		}
+		*/
 		
 		// 01/19/2010 Paul.  The Module Name is needed in order to apply ACL Field Security. 
 		// 01/24/2010 Paul.  Pass the context so that it can be used in the Validation call. 
@@ -615,12 +618,9 @@ namespace SplendidCRM
 												}
 											}
 											// 12/04/2010 Paul.  Add support for Business Rules Framework to Reports. 
-											// 06/30/2023 Paul.  TODO.  .NET Core does not support Workflow, so it does not support rules. 
-											/*
 											Guid gPRE_LOAD_EVENT_ID  = Sql.ToGuid(rdl.GetCustomPropertyValue("PRE_LOAD_EVENT_ID" ));
 											Guid gPOST_LOAD_EVENT_ID = Sql.ToGuid(rdl.GetCustomPropertyValue("POST_LOAD_EVENT_ID"));
 											SplendidDynamic.ApplyReportRules(L10n, gPRE_LOAD_EVENT_ID, gPOST_LOAD_EVENT_ID, dtReport);
-											*/
 										}
 									}
 									// 12/21/2009 Paul.  The new VS 2010 ReportViewer does not like the DataSourceReference.  

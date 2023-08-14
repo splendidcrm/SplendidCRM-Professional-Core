@@ -33,7 +33,8 @@ namespace Spring.Social.iContact
 {
 	public class Lead : Contact
 	{
-		public Lead(Spring.Social.iContact.Api.IiContact icontact) : base(icontact, "Contacts", "Name", "Leads", "LEADS", "NAME", true)
+		public Lead(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.iContact.Api.IiContact icontact)
+			: base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, icontact, "Contacts", "Name", "Leads", "LEADS", "NAME", true)
 		{
 		}
 	}

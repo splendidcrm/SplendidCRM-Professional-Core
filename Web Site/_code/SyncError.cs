@@ -203,7 +203,7 @@ namespace SplendidCRM
 							{
 								trn.Rollback();
 								// 10/26/2008 Paul.  Can't throw an exception here as it could create an endless loop. 
-								//SplendidError.SystemMessage(Context, "Error", new StackTrace(true).GetFrame(0), Utils.ExpandException(ex));
+								//SplendidError.SystemMessage("Error", new StackTrace(true).GetFrame(0), Utils.ExpandException(ex));
 							}
 						}
 					}

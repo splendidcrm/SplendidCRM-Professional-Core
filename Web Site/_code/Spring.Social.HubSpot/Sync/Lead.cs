@@ -33,10 +33,6 @@ namespace Spring.Social.HubSpot
 {
 	public class Lead : HObject
 	{
-		private HttpSessionState     Session            ;
-		private Security             Security           ;
-		private ExchangeSecurity     ExchangeSecurity   ;
-
 		#region Properties
 		public string    firstname          ;
 		public string    lastname           ;
@@ -64,9 +60,6 @@ namespace Spring.Social.HubSpot
 
 		public Lead(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.HubSpot.Api.IHubSpot hubSpot) : base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, hubSpot, "Contacts", "Name", "Leads", "LEADS", "NAME", true)
 		{
-			this.Session             = Session            ;
-			this.Security            = Security           ;
-			this.ExchangeSecurity    = ExchangeSecurity   ;
 		}
 
 		public override void Reset()

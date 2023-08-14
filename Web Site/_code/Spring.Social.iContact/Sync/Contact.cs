@@ -51,12 +51,13 @@ namespace Spring.Social.iContact
 		public int?      bounceCount ;
 		#endregion
 
-		public Contact(Spring.Social.iContact.Api.IiContact icontact) : base(icontact, "Contacts", "Name", "Contacts", "CONTACTS", "NAME", true)
+		public Contact(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.iContact.Api.IiContact icontact)
+			: base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, icontact, "Contacts", "Name", "Contacts", "CONTACTS", "NAME", true)
 		{
 		}
 
-		public Contact(Spring.Social.iContact.Api.IiContact icontact, string siContactTableName, string siContactTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
-			 : base(icontact, siContactTableName, siContactTableSort, sCRMModuleName, sCRMTableName, sCRMTableSort, bCRMAssignedUser)
+		public Contact(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.iContact.Api.IiContact icontact, string siContactTableName, string siContactTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
+			 : base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, icontact, siContactTableName, siContactTableSort, sCRMModuleName, sCRMTableName, sCRMTableSort, bCRMAssignedUser)
 		{
 		}
 

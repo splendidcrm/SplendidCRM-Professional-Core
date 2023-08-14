@@ -33,10 +33,6 @@ namespace Spring.Social.HubSpot
 {
 	public class Company : HObject
 	{
-		private HttpSessionState     Session            ;
-		private Security             Security           ;
-		private ExchangeSecurity     ExchangeSecurity   ;
-
 		#region Properties
 		public string    phone              ;
 		public string    address            ;
@@ -55,9 +51,6 @@ namespace Spring.Social.HubSpot
 
 		public Company(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.HubSpot.Api.IHubSpot hubSpot) : base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, hubSpot, "Companies", "Name", "Accounts", "ACCOUNTS", "NAME", true)
 		{
-			this.Session             = Session            ;
-			this.Security            = Security           ;
-			this.ExchangeSecurity    = ExchangeSecurity   ;
 		}
 
 		public override void Reset()

@@ -682,8 +682,8 @@ namespace SplendidCRM
 					ExchangeSession Session = ExchangeSecurity.LoadUserACL(User.USER_ID);
 					
 					// 09/13/3015 Paul.  Google now uses OAuth 2.0, so Username and Password are not used. 
-					//Guid gINBOUND_EMAIL_KEY = Sql.ToGuid(User.Application["CONFIG.InboundEmailKey"]);
-					//Guid gINBOUND_EMAIL_IV  = Sql.ToGuid(User.Application["CONFIG.InboundEmailIV" ]);
+					//Guid gINBOUND_EMAIL_KEY = Sql.ToGuid(Application["CONFIG.InboundEmailKey"]);
+					//Guid gINBOUND_EMAIL_IV  = Sql.ToGuid(Application["CONFIG.InboundEmailIV" ]);
 					//if ( !Sql.IsEmptyString(User.GOOGLEAPPS_PASSWORD) )
 					//	User.GOOGLEAPPS_PASSWORD = Security.DecryptPassword(User.GOOGLEAPPS_PASSWORD, gINBOUND_EMAIL_KEY, gINBOUND_EMAIL_IV);
 					

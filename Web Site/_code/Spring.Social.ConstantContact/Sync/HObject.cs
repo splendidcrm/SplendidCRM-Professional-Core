@@ -35,14 +35,14 @@ namespace Spring.Social.ConstantContact
 {
 	public class HObject
 	{
-		private SplendidCRM.DbProviderFactories  DbProviderFactories = new SplendidCRM.DbProviderFactories();
-		private HttpApplicationState Application        = new HttpApplicationState();
-		private HttpSessionState     Session            ;
-		private Security             Security           ;
-		private Sql                  Sql                ;
-		private SqlProcs             SqlProcs           ;
-		private ExchangeSecurity     ExchangeSecurity   ;
-		private SyncError            SyncError          ;
+		protected SplendidCRM.DbProviderFactories  DbProviderFactories = new SplendidCRM.DbProviderFactories();
+		protected HttpApplicationState Application        = new HttpApplicationState();
+		protected HttpSessionState     Session            ;
+		protected Security             Security           ;
+		protected Sql                  Sql                ;
+		protected SqlProcs             SqlProcs           ;
+		protected ExchangeSecurity     ExchangeSecurity   ;
+		protected SyncError            SyncError          ;
 
 		#region Properties
 		protected Spring.Social.ConstantContact.Api.IConstantContact constantContact;

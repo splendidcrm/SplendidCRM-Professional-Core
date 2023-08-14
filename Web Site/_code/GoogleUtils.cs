@@ -685,7 +685,7 @@ namespace SplendidCRM
 											else
 											{
 												eventTime.StartTime = SplendidCRM.Utils.CalDAV_ParseDate(arrLine[1]);
-												SplendidCRM.TimeZone oTimeZone = Context.Application["TIMEZONE.TZID." + sTZID] as SplendidCRM.TimeZone;
+												SplendidCRM.TimeZone oTimeZone = Application["TIMEZONE.TZID." + sTZID] as SplendidCRM.TimeZone;
 												if ( oTimeZone != null )
 												{
 													eventTime.StartTime = oTimeZone.ToServerTime(eventTime.StartTime);
@@ -720,7 +720,7 @@ namespace SplendidCRM
 											else
 											{
 												eventTime.EndTime = SplendidCRM.Utils.CalDAV_ParseDate(arrLine[1]);
-												SplendidCRM.TimeZone oTimeZone = Context.Application["TIMEZONE.TZID." + sTZID] as SplendidCRM.TimeZone;
+												SplendidCRM.TimeZone oTimeZone = Application["TIMEZONE.TZID." + sTZID] as SplendidCRM.TimeZone;
 												if ( oTimeZone != null )
 												{
 													eventTime.EndTime = oTimeZone.ToServerTime(eventTime.EndTime);

@@ -290,7 +290,7 @@ namespace Spring.Social.Marketo
 			}
 		}
 
-		private static DateTime DefaultCacheExpiration()
+		private DateTime DefaultCacheExpiration()
 		{
 			return DateTime.Now.AddHours(12);
 		}

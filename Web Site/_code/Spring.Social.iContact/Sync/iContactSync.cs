@@ -233,7 +233,7 @@ namespace Spring.Social.iContact
 						string sSYNC_MODULES = Sql.ToString(Application["CONFIG.iContact.SyncModules"]);
 						if ( sSYNC_MODULES == "Contacts" )
 						{
-							iContact.Contact contact = new iContact.Contact(icontact);
+							iContact.Contact contact = new iContact.Contact(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, icontact);
 							if ( !bInsideContacts )
 							{
 								try
@@ -249,7 +249,7 @@ namespace Spring.Social.iContact
 						}
 						else // if ( sSYNC_MODULES == "Leads" )
 						{
-							iContact.Lead lead = new iContact.Lead(icontact);
+							iContact.Lead lead = new iContact.Lead(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, icontact);
 							if ( !bInsideContacts )
 							{
 								try
@@ -330,7 +330,7 @@ namespace Spring.Social.iContact
 				//foreach ( Spring.Social.iContact.Api.Contact qb in lst )
 				//{
 				//	qo.SetFromiContact(qb.contactId);
-				//	bool bImported = qo.Import(Context, Session, con, gUSER_ID, sDIRECTION, sbErrors);
+				//	bool bImported = qo.Import(Session, con, gUSER_ID, sDIRECTION, sbErrors);
 				//}
 				
 				// 07/03/2014 Paul.  Some of the views exceed 30 characters, so this will not support Oracle. 

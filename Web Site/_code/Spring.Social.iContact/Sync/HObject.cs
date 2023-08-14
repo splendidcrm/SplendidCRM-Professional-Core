@@ -33,6 +33,15 @@ namespace Spring.Social.iContact
 {
 	public class HObject
 	{
+		protected SplendidCRM.DbProviderFactories  DbProviderFactories = new SplendidCRM.DbProviderFactories();
+		protected HttpApplicationState Application        = new HttpApplicationState();
+		protected HttpSessionState     Session            ;
+		protected Security             Security           ;
+		protected Sql                  Sql                ;
+		protected SqlProcs             SqlProcs           ;
+		protected ExchangeSecurity     ExchangeSecurity   ;
+		protected SyncError            SyncError          ;
+
 		#region Properties
 		protected Spring.Social.iContact.Api.IiContact icontact;
 		public string   iContactTableName      ;
@@ -75,11 +84,18 @@ namespace Spring.Social.iContact
 		}
 		#endregion
 
-		public HObject(Spring.Social.iContact.Api.IiContact icontact, string siContactTableName, string siContactTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
+		public HObject(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.iContact.Api.IiContact icontact, string siContactTableName, string siContactTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
 		{
-			this.icontact            = icontact             ;
-			this.iContactTableName   = siContactTableName   ;
-			this.iContactTableSort   = siContactTableSort   ;
+			this.Session             = Session            ;
+			this.Security            = Security           ;
+			this.Sql                 = Sql                ;
+			this.SqlProcs            = SqlProcs           ;
+			this.ExchangeSecurity    = ExchangeSecurity   ;
+			this.SyncError           = SyncError          ;
+
+			this.icontact            = icontact            ;
+			this.iContactTableName   = siContactTableName  ;
+			this.iContactTableSort   = siContactTableSort  ;
 			this.CRMModuleName       = sCRMModuleName      ;
 			this.CRMTableName        = sCRMTableName       ;
 			this.CRMTableSort        = sCRMTableSort       ;

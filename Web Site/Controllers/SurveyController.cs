@@ -927,7 +927,7 @@ namespace SplendidCRM.Controllers.Surveys
 				// 10/09/2018 Paul.  When the survey is complete, create the lead in a thread so that the customer is not delayed. 
 				if ( !Sql.IsEmptyString(sSURVEY_TARGET_MODULE) && bIS_COMPLETE )
 				{
-					SurveyCreateLead build = new SurveyCreateLead(Context, Sql, SqlProcs, XmlUtil, SplendidError, Modules, gID, gCURRENT_USER_ID, gCURRENT_TEAM_ID);
+					SurveyCreateLead build = new SurveyCreateLead(Sql, SqlProcs, XmlUtil, SplendidError, Modules, gID, gCURRENT_USER_ID, gCURRENT_TEAM_ID);
 					taskQueue.QueueBackgroundWorkItemAsync(build.Start);
 				}
 			}
@@ -943,7 +943,6 @@ namespace SplendidCRM.Controllers.Surveys
 		public class SurveyCreateLead
 		{
 			private SplendidCRM.DbProviderFactories  DbProviderFactories = new SplendidCRM.DbProviderFactories();
-			private HttpContext          Context            ;
 			private HttpApplicationState Application        = new HttpApplicationState();
 			private Sql                  Sql                ;
 			private SqlProcs             SqlProcs           ;
@@ -955,9 +954,8 @@ namespace SplendidCRM.Controllers.Surveys
 			private Guid gCURRENT_USER_ID;
 			private Guid gCURRENT_TEAM_ID;
 			
-			public SurveyCreateLead(HttpContext Context, Sql Sql, SqlProcs SqlProcs, XmlUtil XmlUtil, SplendidError SplendidError, SplendidCRM.Crm.Modules Modules, Guid gSURVEY_RESULT_ID, Guid gCURRENT_USER_ID, Guid gCURRENT_TEAM_ID)
+			public SurveyCreateLead(Sql Sql, SqlProcs SqlProcs, XmlUtil XmlUtil, SplendidError SplendidError, SplendidCRM.Crm.Modules Modules, Guid gSURVEY_RESULT_ID, Guid gCURRENT_USER_ID, Guid gCURRENT_TEAM_ID)
 			{
-				this.Context             = Context            ;
 				this.Sql                 = Sql                ;
 				this.SqlProcs            = SqlProcs           ;
 				this.XmlUtil             = XmlUtil            ;

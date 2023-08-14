@@ -33,18 +33,9 @@ namespace Spring.Social.ConstantContact
 {
 	public class Lead : Contact
 	{
-		private HttpSessionState     Session            ;
-		private Security             Security           ;
-		private ExchangeSecurity     ExchangeSecurity   ;
-		private SyncError            SyncError          ;
-
 		public Lead(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.ConstantContact.Api.IConstantContact constantContact)
 			: base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, constantContact, "Contacts", "Name", "Leads", "LEADS", "NAME", true)
 		{
-			this.Session             = Session            ;
-			this.Security            = Security           ;
-			this.ExchangeSecurity    = ExchangeSecurity   ;
-			this.SyncError           = SyncError          ;
 		}
 
 		public override bool SetFromCRM(string sID, DataRow row, StringBuilder sbChanges)

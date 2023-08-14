@@ -33,13 +33,6 @@ namespace Spring.Social.ConstantContact
 {
 	public class Contact : HObject
 	{
-		private HttpSessionState     Session            ;
-		private Security             Security           ;
-		private Sql                  Sql                ;
-		private SqlProcs             SqlProcs           ;
-		private ExchangeSecurity     ExchangeSecurity   ;
-		private SyncError            SyncError          ;
-
 		#region Properties
 		public string   prefix_name          ;
 		public string   first_name           ;
@@ -73,23 +66,11 @@ namespace Spring.Social.ConstantContact
 		public Contact(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.ConstantContact.Api.IConstantContact constantContact)
 			: base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, constantContact, "Contacts", "Name", "Contacts", "CONTACTS", "NAME", true)
 		{
-			this.Session             = Session            ;
-			this.Security            = Security           ;
-			this.Sql                 = Sql                ;
-			this.SqlProcs            = SqlProcs           ;
-			this.ExchangeSecurity    = ExchangeSecurity   ;
-			this.SyncError           = SyncError          ;
 		}
 
 		public Contact(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.ConstantContact.Api.IConstantContact constantContact, string siContactTableName, string siContactTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
 			 : base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, constantContact, siContactTableName, siContactTableSort, sCRMModuleName, sCRMTableName, sCRMTableSort, bCRMAssignedUser)
 		{
-			this.Session             = Session            ;
-			this.Security            = Security           ;
-			this.Sql                 = Sql                ;
-			this.SqlProcs            = SqlProcs           ;
-			this.ExchangeSecurity    = ExchangeSecurity   ;
-			this.SyncError           = SyncError          ;
 		}
 
 		public override void Reset()

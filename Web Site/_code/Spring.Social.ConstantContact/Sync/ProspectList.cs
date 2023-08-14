@@ -33,17 +33,10 @@ namespace Spring.Social.ConstantContact
 {
 	public class ProspectList : HObject
 	{
-		private HttpSessionState     Session            ;
-		private Security             Security           ;
-		private ExchangeSecurity     ExchangeSecurity   ;
-
 		public string   status               ;
 
 		public ProspectList(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.ConstantContact.Api.IConstantContact constantContact) : base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, constantContact, "Lists", "Name", "ProspectList", "PROSPECT_LISTS", "NAME", false)
 		{
-			this.Session             = Session            ;
-			this.Security            = Security           ;
-			this.ExchangeSecurity    = ExchangeSecurity   ;
 		}
 
 		public override void Reset()

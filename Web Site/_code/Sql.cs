@@ -3958,6 +3958,10 @@ namespace SplendidCRM
 	// 10/24/2010 Paul.  We need a Sql object that we can intanciate for use by the RulesWizard. 
 	public class SqlObj
 	{
+		protected SplendidControl Container        ;
+		protected Security        Security         ;
+		protected L10N            L10n             ;
+
 		public bool     IsEmptyString(string   str) { return Sql.IsEmptyString(str); }
 		public bool     IsEmptyString(object   obj) { return Sql.IsEmptyString(obj); }
 		public string   ToString     (string   str) { return Sql.ToString     (str); }
@@ -4012,6 +4016,13 @@ namespace SplendidCRM
 		public object   ToDBBoolean  (object   obj) { return Sql.ToDBBoolean  (obj); }
 		// 12/19/2012 Paul.  Provide a UrlEncode method. 
 		public string   UrlEncode    (string   str) { return HttpUtility.UrlEncode(str); }
+
+		// 04/27/2018 Paul.  We need to be able to generate an error message. 
+		public string ErrorMessage
+		{
+			get { return Container.RulesErrorMessage; }
+			set { Container.RulesErrorMessage = value; }
+		}
 	}
 
 	public class UniqueStringCollection : StringCollection

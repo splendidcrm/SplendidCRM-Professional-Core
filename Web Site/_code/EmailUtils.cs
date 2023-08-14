@@ -1089,7 +1089,7 @@ namespace SplendidCRM
 					SplendidMailClient client = SplendidMailClient.CreateMailClient(Application, memoryCache, Security, SplendidError, GoogleApps, Office365Sync);
 
 					// 07/16/2008 Paul.  We can't use L10N because it requires a valid Application object. 
-					//L10N L10n = new L10N(SplendidDefaults.Culture(Application));
+					//L10N L10n = new L10N(SplendidDefaults.Culture());
 					string sSiteURL = Utils.MassEmailerSiteURL();
 					DbProviderFactory dbf = DbProviderFactories.GetFactory();
 					using ( IDbConnection con = dbf.CreateConnection() )

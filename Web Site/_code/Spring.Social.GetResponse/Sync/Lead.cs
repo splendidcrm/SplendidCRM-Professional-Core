@@ -33,7 +33,8 @@ namespace Spring.Social.GetResponse
 {
 	public class Lead : Contact
 	{
-		public Lead(Spring.Social.GetResponse.Api.IGetResponse getResponse) : base(getResponse, "Contacts", "Name", "Leads", "LEADS", "NAME", true)
+		public Lead(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.GetResponse.Api.IGetResponse getResponse)
+			: base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, getResponse, "Contacts", "Name", "Leads", "LEADS", "NAME", true)
 		{
 		}
 	}

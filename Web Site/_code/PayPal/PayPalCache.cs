@@ -90,7 +90,7 @@ namespace SplendidCRM
 			if ( ds == null )
 			{
 				// 11/15/2009 Paul.  We need a version of the certificate function that accepts the application. 
-				PayPalAPI api = CreatePayPalAPI(Application);
+				PayPalAPI api = CreatePayPalAPI();
 				ds = api.GetTransactionDetails(sTransactionID);
 				Cache.Set("PayPal.Transaction." + sTransactionID, ds, this.DefaultCacheExpiration());
 			}

@@ -47,9 +47,10 @@ namespace SplendidCRM
 		private SplendidError        SplendidError      ;
 		private SplendidCache        SplendidCache      ;
 		private XmlUtil              XmlUtil            ;
+		private SplendidControl      Container          ;
 		private SplendidCRM.Crm.Config           Config           = new SplendidCRM.Crm.Config();
 
-		public ImportUtils(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidCache SplendidCache, XmlUtil XmlUtil)
+		public ImportUtils(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidCache SplendidCache, XmlUtil XmlUtil, SplendidControl SplendidControl)
 		{
 			this.hostingEnvironment  = hostingEnvironment ;
 			this.Context             = httpContextAccessor.HttpContext;
@@ -62,6 +63,7 @@ namespace SplendidCRM
 			this.SplendidError       = SplendidError      ;
 			this.SplendidCache       = SplendidCache      ;
 			this.XmlUtil             = XmlUtil            ;
+			this.Container           = SplendidControl    ;
 		}
 
 		public void GenerateImport(string sImportModule, string sSOURCE, DataView vwColumns, XmlDocument xmlMapping, DataTable dtRules, string sLayoutEditView, string sTempFileName, bool bPreview, bool bHAS_HEADER, bool bUSE_TRANSACTION, Guid gPROSPECT_LIST_ID, StringBuilder sbImport, StringBuilder sbErrors, string sProcessedFileID, DataTable dtProcessed, ref int nImported, ref int nFailed, ref int nDuplicates)
@@ -86,6 +88,16 @@ namespace SplendidCRM
 					nlRows = xmlImport.DocumentElement.SelectNodes(sImportModule);
 				if ( nlRows.Count == 0 )
 					throw(new Exception(L10n.Term("Import.LBL_NOTHING")));
+				
+				// 09/17/2013 Paul.  Add Business Rules to import. 
+				SplendidRulesTypeProvider typeProvider = new SplendidRulesTypeProvider();
+				RuleValidation validation = new RuleValidation(typeof(SplendidImportThis), typeProvider);
+				RuleSet rules = null;
+				// 06/02/2014 Paul.  No sense in building the rules if the rows are empty. 
+				if ( dtRules != null && dtRules.Rows.Count > 0 )
+				{
+					rules = RulesUtil.BuildRuleSet(dtRules, validation);
+				}
 				
 				// 08/20/2006 Paul.  Also map the header names to allow for a flexible XML. 
 				StringDictionary hashHeaderMappings   = new StringDictionary();
@@ -617,6 +629,23 @@ namespace SplendidCRM
 											if ( cmdImportCSTM != null )
 												Sql.SetParameter(cmdImportCSTM, sName, sText);
 										}
+									}
+									
+									// 09/17/2013 Paul.  Add Business Rules to import. 
+									// Apply rules before Required Fields or Duplicates check. 
+									// For efficiency, don't apply rules engine if no rules were defined. 
+									if ( rules != null && dtRules != null && dtRules.Rows.Count > 0 )
+									{
+										row["IMPORT_LAST_COLUMN"] = "Business Rules Engine";
+										// 04/27/2018 Paul.  We need to be able to generate an error message. 
+										SplendidImportThis swThis = new SplendidImportThis(Security, Container, sImportModule, row, cmdImport, cmdImportCSTM);
+										RuleExecution exec = new RuleExecution(validation, swThis);
+										rules.Execute(exec);
+										// 05/23/2018 Paul.  If there is no error, then clear last column. 
+										if ( !Sql.IsEmptyString(swThis.ErrorMessage) )
+											throw(new Exception(swThis.ErrorMessage));
+										else
+											row["IMPORT_LAST_COLUMN"] = String.Empty;
 									}
 									
 									StringBuilder sbRequiredFieldErrors = new StringBuilder();

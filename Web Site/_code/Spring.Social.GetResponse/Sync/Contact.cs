@@ -44,12 +44,13 @@ namespace Spring.Social.GetResponse
 		public string   dayOfCycle  ;
 		#endregion
 
-		public Contact(Spring.Social.GetResponse.Api.IGetResponse getResponse) : base(getResponse, "Contacts", "Name", "Contacts", "CONTACTS", "NAME", true)
+		public Contact(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.GetResponse.Api.IGetResponse getResponse)
+			: base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, getResponse, "Contacts", "Name", "Contacts", "CONTACTS", "NAME", true)
 		{
 		}
 
-		public Contact(Spring.Social.GetResponse.Api.IGetResponse getResponse, string siContactTableName, string siContactTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
-			 : base(getResponse, siContactTableName, siContactTableSort, sCRMModuleName, sCRMTableName, sCRMTableSort, bCRMAssignedUser)
+		public Contact(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, ExchangeSecurity ExchangeSecurity, SyncError SyncError, Spring.Social.GetResponse.Api.IGetResponse getResponse, string siContactTableName, string siContactTableSort, string sCRMModuleName, string sCRMTableName, string sCRMTableSort, bool bCRMAssignedUser)
+			 : base(Session, Security, Sql, SqlProcs, ExchangeSecurity, SyncError, getResponse, siContactTableName, siContactTableSort, sCRMModuleName, sCRMTableName, sCRMTableSort, bCRMAssignedUser)
 		{
 		}
 
