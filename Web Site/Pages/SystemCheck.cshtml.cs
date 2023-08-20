@@ -23,11 +23,13 @@ using System.Data;
 using System.Globalization;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace SplendidCRM.Pages
 {
 	// 06/29/2023 Paul.  SystemCheck is not authorized. 
+	[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
 	public class SystemCheckModel : PageModel
 	{
 		private SplendidCRM.DbProviderFactories  DbProviderFactories = new SplendidCRM.DbProviderFactories();
