@@ -25,31 +25,42 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Spring.Social;
+using System.Diagnostics;
 
 namespace SplendidCRM
 {
 	// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-7.0&tabs=visual-studio
 	public class QueuedBackgroundService : BackgroundService
 	{
-		private readonly ILogger<QueuedBackgroundService> _logger;
-		public IBackgroundTaskQueue TaskQueue { get; }
+		private readonly   IServiceProvider                  _serviceProvider;
+		private readonly   ILogger<QueuedBackgroundService>  _logger         ;
+		public             IBackgroundTaskQueue              TaskQueue { get; }
 
-		public QueuedBackgroundService(IBackgroundTaskQueue taskQueue, ILogger<QueuedBackgroundService> logger)
+		public QueuedBackgroundService(IServiceProvider serviceProvider, ILogger<QueuedBackgroundService> logger, IBackgroundTaskQueue taskQueue)
 		{
-			TaskQueue = taskQueue;
-			_logger = logger;
+			_serviceProvider = serviceProvider;
+			_logger          =  logger        ;
+			TaskQueue        = taskQueue      ;
 		}
 
 		public override async Task StartAsync(CancellationToken stoppingToken)
 		{
-			_logger.LogInformation("The Queued Hosted Service has been activated.");
+			using ( IServiceScope scope = _serviceProvider.CreateScope() )
+			{
+				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+				SplendidError.SystemWarning(new StackTrace(true).GetFrame(0), "The Queued Hosted Service has been activated.");
+			}
 			await base.StartAsync(stoppingToken);
 		}
 
 		public override async Task StopAsync(CancellationToken stoppingToken)
 		{
-			_logger.LogInformation("The Queued Hosted Service is stopping.");
-
+			using ( IServiceScope scope = _serviceProvider.CreateScope() )
+			{
+				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+				SplendidError.SystemWarning(new StackTrace(true).GetFrame(0), "The Queued Hosted Service is stopping.");
+			}
 			await base.StopAsync(stoppingToken);
 		}
 
@@ -57,18 +68,26 @@ namespace SplendidCRM
 		{
 			while ( !stoppingToken.IsCancellationRequested )
 			{
-				var workItem = await TaskQueue.DequeueAsync(stoppingToken);
-				try
+				using ( IServiceScope scope = _serviceProvider.CreateScope() )
 				{
-					_logger.LogInformation("Queued Hosted Service Processing {WorkItem}.", nameof(workItem));
+					SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+					var workItem = await TaskQueue.DequeueAsync(stoppingToken);
+					try
+					{
+						string sName = nameof(workItem);
+						_logger.LogInformation("Queued Hosted Service Processing {WorkItem}.", nameof(workItem));
+						Debug.WriteLine($"Queued Hosted Service Processing {sName}.");
+						SplendidError.SystemWarning(new StackTrace(true).GetFrame(0), $"Queued Hosted Service Processing {sName}.");
 #pragma warning disable CS4014
-					// 05/16/2023 Paul.  We don't want to block other work items, so don't await. 
-					workItem(stoppingToken);
+						// 05/16/2023 Paul.  We don't want to block other work items, so don't await. 
+						workItem(stoppingToken);
 #pragma warning restore CS4014
-				}
-				catch (Exception ex)
-				{
-					_logger.LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+					}
+					catch (Exception ex)
+					{
+						_logger.LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+						SplendidError.SystemError(new StackTrace(true).GetFrame(0), ex);
+					}
 				}
 				// 05/23/2023 Paul.  Without delay, loop consumes 100% of resources. 
 				await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);

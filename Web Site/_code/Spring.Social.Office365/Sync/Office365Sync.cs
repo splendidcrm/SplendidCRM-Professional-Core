@@ -185,7 +185,7 @@ namespace Spring.Social.Office365
 			{
 				DateTime dtOAuthExpiresAt = DateTime.MinValue;
 				if ( Sql.IsEmptyString(sRedirect) )
-					sRedirect = Request.Scheme + "://" + Request.Host.Host + Sql.ToString(Application["rootURL"]) + "OAuth/Office365Landing.aspx";
+					sRedirect = Request.Scheme + "://" + Request.Host.Host + Sql.ToString(Application["rootURL"]) + "Office365OAuth";
 				
 				SplendidCRM.DbProviderFactory dbf = DbProviderFactories.GetFactory();
 				using ( IDbConnection con = dbf.CreateConnection() )

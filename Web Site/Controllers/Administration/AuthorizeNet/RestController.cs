@@ -66,8 +66,9 @@ namespace SplendidCRM.Controllers.Administration.AuthorizeNet
 			this.AuthorizeNetUtils   = AuthorizeNetUtils  ;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -130,7 +131,7 @@ namespace SplendidCRM.Controllers.Administration.AuthorizeNet
 		}
 
 		[HttpPost("[action]")]
-		public Dictionary<string, object> Transactions(Dictionary<string, object> dict)
+		public Dictionary<string, object> Transactions([FromBody] Dictionary<string, object> dict)
 		{
 			if ( Security.AdminUserAccess(MODULE_NAME, "edit") < 0 )
 			{
@@ -236,7 +237,7 @@ namespace SplendidCRM.Controllers.Administration.AuthorizeNet
 		}
 
 		[HttpPost("[action]")]
-		public Dictionary<string, object> CustomerProfiles(Dictionary<string, object> dict)
+		public Dictionary<string, object> CustomerProfiles([FromBody] Dictionary<string, object> dict)
 		{
 			if ( Security.AdminUserAccess(MODULE_NAME, "edit") < 0 )
 			{
@@ -361,8 +362,9 @@ namespace SplendidCRM.Controllers.Administration.AuthorizeNet
 			return dict;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Refund(Dictionary<string, object> dict)
+		public string Refund([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try

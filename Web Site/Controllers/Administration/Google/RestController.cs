@@ -64,8 +64,9 @@ namespace SplendidCRM.Controllers.Administration.Google
 		}
 
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -122,6 +123,7 @@ namespace SplendidCRM.Controllers.Administration.Google
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
 		public TokenResponse RefreshToken()
 		{

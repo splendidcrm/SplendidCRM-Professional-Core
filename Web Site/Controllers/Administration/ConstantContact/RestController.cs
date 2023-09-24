@@ -33,6 +33,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace SplendidCRM.Controllers.Administration.ConstantContact
 {
@@ -66,8 +67,9 @@ namespace SplendidCRM.Controllers.Administration.ConstantContact
 			this.taskQueue           = taskQueue          ;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -120,8 +122,9 @@ namespace SplendidCRM.Controllers.Administration.ConstantContact
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Sync(Dictionary<string, object> dict)
+		public async Task<string> Sync([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -133,7 +136,7 @@ namespace SplendidCRM.Controllers.Administration.ConstantContact
 #if false
 				ConstantContactSync.Sync();
 #else
-				taskQueue.QueueBackgroundWorkItemAsync(ConstantContactSync.Sync);
+				await taskQueue.QueueBackgroundWorkItemAsync(ConstantContactSync.Sync);
 				sbErrors.Append(L10n.Term("ConstantContact.LBL_SYNC_BACKGROUND"));
 #endif
 			}
@@ -145,8 +148,9 @@ namespace SplendidCRM.Controllers.Administration.ConstantContact
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string SyncAll(Dictionary<string, object> dict)
+		public async Task<string> SyncAll([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -158,7 +162,7 @@ namespace SplendidCRM.Controllers.Administration.ConstantContact
 #if false
 				ConstantContactSync.SyncAll();
 #else
-				taskQueue.QueueBackgroundWorkItemAsync(ConstantContactSync.SyncAll);
+				await taskQueue.QueueBackgroundWorkItemAsync(ConstantContactSync.SyncAll);
 				sbErrors.Append(L10n.Term("ConstantContact.LBL_SYNC_BACKGROUND"));
 #endif
 			}
@@ -170,8 +174,9 @@ namespace SplendidCRM.Controllers.Administration.ConstantContact
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public Spring.Social.ConstantContact.RefreshToken GetAccessToken(Dictionary<string, object> dict)
+		public Spring.Social.ConstantContact.RefreshToken GetAccessToken([FromBody] Dictionary<string, object> dict)
 		{
 			Spring.Social.ConstantContact.RefreshToken token = null;
 			try
@@ -206,7 +211,7 @@ namespace SplendidCRM.Controllers.Administration.ConstantContact
 				objRequest.Headers["Authorization"] = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(sOAUTH_CLIENT_ID + ":" + sOAUTH_CLIENT_SECRET));
 				
 				if ( Sql.IsEmptyString(sRedirectURL) )
-					sRedirectURL = Request.Scheme + "://" + Request.Host.Host + Sql.ToString(Application["rootURL"]) + "Administration/ConstantContact/OAuthLanding.aspx";
+					sRedirectURL = Request.Scheme + "://" + Request.Host.Host + Sql.ToString(Application["rootURL"]) + "Administration/ConstantContact/ConfigView";
 				string sData = "grant_type=authorization_code&code=" + sCode + "&redirect_uri=" + HttpUtility.UrlEncode(sRedirectURL);
 				objRequest.ContentLength = sData.Length;
 				using ( StreamWriter stm = new StreamWriter(objRequest.GetRequestStream(), System.Text.Encoding.ASCII) )
@@ -267,7 +272,7 @@ namespace SplendidCRM.Controllers.Administration.ConstantContact
 			return token;
 		}
 
-
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
 		public string RefreshToken()
 		{

@@ -111,7 +111,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public string SendTestMessage(Dictionary<string, object> dict)
+		public string SendTestMessage([FromBody] Dictionary<string, object> dict)
 		{
 			Guid   gINBOUND_EMAIL_KEY = Sql.ToGuid(Application["CONFIG.InboundEmailKey"]);
 			Guid   gINBOUND_EMAIL_IV  = Sql.ToGuid(Application["CONFIG.InboundEmailIV" ]);
@@ -211,7 +211,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public string GoogleApps_Authorize(Dictionary<string, object> dict)
+		public string GoogleApps_Authorize([FromBody] Dictionary<string, object> dict)
 		{
 			Guid   gID            = Sql.ToGuid(Request.Query["ID"]);
 			string sCode          = String.Empty;
@@ -279,7 +279,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public void GoogleApps_Delete(Dictionary<string, object> dict)
+		public void GoogleApps_Delete([FromBody] Dictionary<string, object> dict)
 		{
 			Guid gID = Sql.ToGuid(Request.Query["ID"]);
 			if ( Security.AdminUserAccess("OutboundEmail", "edit") >= 0 )
@@ -293,7 +293,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public string GoogleApps_Test(Dictionary<string, object> dict)
+		public string GoogleApps_Test([FromBody] Dictionary<string, object> dict)
 		{
 			string sStatus            = String.Empty;
 			Guid   gID                = Sql.ToGuid(Request.Query["ID"]);
@@ -333,7 +333,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public void GoogleApps_RefreshToken(Dictionary<string, object> dict)
+		public void GoogleApps_RefreshToken([FromBody] Dictionary<string, object> dict)
 		{
 			Guid gID = Sql.ToGuid(Request.Query["ID"]);
 			if ( Security.AdminUserAccess("OutboundEmail", "edit") >= 0 )
@@ -347,7 +347,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public string Office365_Authorize(Dictionary<string, object> dict)
+		public string Office365_Authorize([FromBody] Dictionary<string, object> dict)
 		{
 			Guid   gID            = Sql.ToGuid(Request.Query["ID"]);
 			string sCode          = String.Empty;
@@ -392,7 +392,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public void Office365_Delete(Dictionary<string, object> dict)
+		public void Office365_Delete([FromBody] Dictionary<string, object> dict)
 		{
 			Guid gID = Sql.ToGuid(Request.Query["ID"]);
 			if ( Security.AdminUserAccess("OutboundEmail", "edit") >= 0 )
@@ -406,7 +406,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public string Office365_Test(Dictionary<string, object> dict)
+		public string Office365_Test([FromBody] Dictionary<string, object> dict)
 		{
 			Guid   gID                = Sql.ToGuid(Request.Query["ID"]);
 			string sFROM_ADDR         = String.Empty;
@@ -465,7 +465,7 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		}
 
 		[HttpPost("[action]")]
-		public void Office365_RefreshToken(Dictionary<string, object> dict)
+		public void Office365_RefreshToken([FromBody] Dictionary<string, object> dict)
 		{
 			Guid   gID     = Sql.ToGuid(Request.Query["ID"]);
 			if ( Security.AdminUserAccess("OutboundEmail", "edit") >= 0 )

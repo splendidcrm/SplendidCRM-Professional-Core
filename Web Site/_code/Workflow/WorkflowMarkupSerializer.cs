@@ -25,14 +25,14 @@ namespace SplendidCRM
 {
 	public class WorkflowMarkupSerializer
 	{
-		public void Serialize(XmlTextWriter xwtr, RuleSet rules)
+		public void Serialize(XmlWriter writer, object obj)
 		{
+			throw(new Exception("Not implemented"));
 		}
 
-		public RuleSet Deserialize(XmlTextReader xrdr)
+		public object Deserialize(XmlReader reader)
 		{
-			RuleSet rules = new RuleSet("unknown");
-			return rules;
+			throw(new Exception("Not implemented"));
 		}
 	}
 }

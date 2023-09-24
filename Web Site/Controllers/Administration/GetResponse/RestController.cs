@@ -32,6 +32,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace SplendidCRM.Controllers.Administration.GetResponse
 {
@@ -62,8 +63,9 @@ namespace SplendidCRM.Controllers.Administration.GetResponse
 			this.taskQueue           = taskQueue          ;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -96,8 +98,9 @@ namespace SplendidCRM.Controllers.Administration.GetResponse
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Sync(Dictionary<string, object> dict)
+		public async Task<string> Sync([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -109,7 +112,7 @@ namespace SplendidCRM.Controllers.Administration.GetResponse
 #if false
 				GetResponseSync.Sync();
 #else
-				taskQueue.QueueBackgroundWorkItemAsync(GetResponseSync.Sync);
+				await taskQueue.QueueBackgroundWorkItemAsync(GetResponseSync.Sync);
 				sbErrors.Append(L10n.Term("GetResponse.LBL_SYNC_BACKGROUND"));
 #endif
 			}
@@ -121,8 +124,9 @@ namespace SplendidCRM.Controllers.Administration.GetResponse
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string SyncAll(Dictionary<string, object> dict)
+		public async Task<string> SyncAll([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -134,7 +138,7 @@ namespace SplendidCRM.Controllers.Administration.GetResponse
 #if false
 				Spring.Social.GetResponse.GetResponseSync.SyncAll(Context);
 #else
-				taskQueue.QueueBackgroundWorkItemAsync(GetResponseSync.SyncAll);
+				await taskQueue.QueueBackgroundWorkItemAsync(GetResponseSync.SyncAll);
 				sbErrors.Append(L10n.Term("GetResponse.LBL_SYNC_BACKGROUND"));
 #endif
 			}

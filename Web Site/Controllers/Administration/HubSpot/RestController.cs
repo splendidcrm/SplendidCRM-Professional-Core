@@ -64,8 +64,9 @@ namespace SplendidCRM.Controllers.Administration.HubSpot
 			this.taskQueue           = taskQueue          ;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -117,8 +118,9 @@ namespace SplendidCRM.Controllers.Administration.HubSpot
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public async Task<string> Sync(Dictionary<string, object> dict)
+		public async Task<string> Sync([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -143,7 +145,7 @@ namespace SplendidCRM.Controllers.Administration.HubSpot
 		}
 
 		[HttpPost("[action]")]
-		public async Task<string> SyncAll(Dictionary<string, object> dict)
+		public async Task<string> SyncAll([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -167,8 +169,9 @@ namespace SplendidCRM.Controllers.Administration.HubSpot
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public Spring.Social.HubSpot.RefreshToken GetAccessToken(Dictionary<string, object> dict)
+		public Spring.Social.HubSpot.RefreshToken GetAccessToken([FromBody] Dictionary<string, object> dict)
 		{
 			Spring.Social.HubSpot.RefreshToken token = null;
 			StringBuilder sbErrors = new StringBuilder();
@@ -202,7 +205,7 @@ namespace SplendidCRM.Controllers.Administration.HubSpot
 				objRequest.Method            = "POST";
 				
 				if ( Sql.IsEmptyString(sRedirectURL) )
-					sRedirectURL = Request.Scheme + "://" + Request.Host.Host + Sql.ToString(Application["rootURL"]) + "Administration/HubSpot/OAuthLanding.aspx";
+					sRedirectURL = Request.Scheme + "://" + Request.Host.Host + Sql.ToString(Application["rootURL"]) + "Administration/HubSpot/ConfigView";
 				string sData = "grant_type=authorization_code&client_id=" + sOAUTH_CLIENT_ID + "&client_secret=" + sOAUTH_CLIENT_SECRET + "&code=" + sCode + "&redirect_uri=" + HttpUtility.UrlEncode(sRedirectURL);
 				objRequest.ContentLength = sData.Length;
 				using ( StreamWriter stm = new StreamWriter(objRequest.GetRequestStream(), System.Text.Encoding.ASCII) )
@@ -241,6 +244,7 @@ namespace SplendidCRM.Controllers.Administration.HubSpot
 			return token;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
 		public Spring.Social.HubSpot.RefreshToken RefreshToken()
 		{

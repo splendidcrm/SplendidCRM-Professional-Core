@@ -116,7 +116,7 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 
 		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -189,7 +189,7 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 
 		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Sync(Dictionary<string, object> dict)
+		public string Sync([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -280,7 +280,7 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 
 		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string SyncFolder(Dictionary<string, object> dict)
+		public string SyncFolder([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -533,7 +533,7 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 
 		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Authorize(Dictionary<string, object> dict)
+		public string Authorize([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -571,7 +571,7 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 
 		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Enable(Dictionary<string, object> dict)
+		public string Enable([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -666,7 +666,7 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 
 		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string MassEnable(Dictionary<string, object> dict)
+		public string MassEnable([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try

@@ -44,14 +44,22 @@ namespace SplendidCRM
 
 		public Task StartAsync(CancellationToken stoppingToken)
 		{
-			_logger.LogInformation("The Archive Manager timer has been activated.");
+			using ( IServiceScope scope = _serviceProvider.CreateScope() )
+			{
+				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+				SplendidError.SystemWarning(new StackTrace(true).GetFrame(0), "The Archive Manager timer has been activated.");
+			}
 			_timer = new Timer(DoWork, null, new TimeSpan(0, 1, 0), TimeSpan.FromMinutes(5));
 			return Task.CompletedTask;
 		}
 
 		public Task StopAsync(CancellationToken stoppingToken)
 		{
-			_logger.LogInformation("The Archive Manager timer is stopping.");
+			using ( IServiceScope scope = _serviceProvider.CreateScope() )
+			{
+				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+				SplendidError.SystemWarning(new StackTrace(true).GetFrame(0), "The Archive Manager timer is stopping.");
+			}
 			_timer?.Change(Timeout.Infinite, 0);
 			return Task.CompletedTask;
 		}
@@ -63,18 +71,21 @@ namespace SplendidCRM
 
 		private void DoWork(object state)
 		{
-			try
+			using ( IServiceScope scope = _serviceProvider.CreateScope() )
 			{
-				using ( IServiceScope scope = _serviceProvider.CreateScope() )
+				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+				try
 				{
 					_logger.LogDebug($"ArchiveHostedService.DoWork");
+					Debug.WriteLine($"ArchiveHostedService.DoWork");
 					SchedulerUtils schedulerUtils = scope.ServiceProvider.GetRequiredService<SchedulerUtils>();
 					schedulerUtils.OnArchiveTimer();
 				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError($"Failure while processing ArchiveHostedService {ex}");
+				catch (Exception ex)
+				{
+					_logger.LogError($"Failure while processing ArchiveHostedService {ex}");
+					SplendidError.SystemError(new StackTrace(true).GetFrame(0), ex);
+				}
 			}
 		}
 

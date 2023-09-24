@@ -44,14 +44,22 @@ namespace SplendidCRM
 
 		public Task StartAsync(CancellationToken stoppingToken)
 		{
-			_logger.LogInformation("The Scheduler Manager timer has been activated.");
+			using ( IServiceScope scope = _serviceProvider.CreateScope() )
+			{
+				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+				SplendidError.SystemWarning(new StackTrace(true).GetFrame(0), "The Scheduler Manager timer has been activated.");
+			}
 			_timer = new Timer(DoWork, null, new TimeSpan(0, 1, 0), TimeSpan.FromMinutes(5));
 			return Task.CompletedTask;
 		}
 
 		public Task StopAsync(CancellationToken stoppingToken)
 		{
-			_logger.LogInformation("The Scheduler Manager timer is stopping.");
+			using ( IServiceScope scope = _serviceProvider.CreateScope() )
+			{
+				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+				SplendidError.SystemWarning(new StackTrace(true).GetFrame(0), "The Scheduler Manager timer is stopping.");
+			}
 			_timer?.Change(Timeout.Infinite, 0);
 			return Task.CompletedTask;
 		}
@@ -63,18 +71,21 @@ namespace SplendidCRM
 
 		private void DoWork(object state)
 		{
-			try
+			using ( IServiceScope scope = _serviceProvider.CreateScope() )
 			{
-				using ( IServiceScope scope = _serviceProvider.CreateScope() )
+				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
+				try
 				{
 					_logger.LogDebug($"SchedulerHostedService.DoWork");
+					Debug.WriteLine($"SchedulerHostedService.DoWork");
 					SchedulerUtils schedulerUtils = scope.ServiceProvider.GetRequiredService<SchedulerUtils>();
 					schedulerUtils.OnTimer();
 				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError($"Failure while processing SchedulerHostedService {ex}");
+				catch (Exception ex)
+				{
+					_logger.LogError($"Failure while processing SchedulerHostedService {ex}");
+					SplendidError.SystemError(new StackTrace(true).GetFrame(0), ex);
+				}
 			}
 		}
 

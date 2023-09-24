@@ -6552,7 +6552,7 @@ namespace SplendidCRM.Controllers
 		[DotNetLegacyData]
 		[HttpPost("[action]")]
 		// 02/07/2022 Paul.  Must follow old convention of returning value under d.  { d: value }
-		public Guid UpdateSavedSearch(Dictionary<string, object> dict)
+		public Guid UpdateSavedSearch([FromBody] Dictionary<string, object> dict)
 		{
 			Guid gID = Guid.Empty;
 			//try

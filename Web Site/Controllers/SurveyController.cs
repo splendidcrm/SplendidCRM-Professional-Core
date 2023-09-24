@@ -594,7 +594,7 @@ namespace SplendidCRM.Controllers.Surveys
 		#region Update
 		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public Guid UpdateSurvey([FromBody] Dictionary<string, object> dict)
+		public async Task<Guid> UpdateSurvey([FromBody] Dictionary<string, object> dict)
 		{
 			Guid gID = Guid.Empty;
 			try
@@ -928,7 +928,7 @@ namespace SplendidCRM.Controllers.Surveys
 				if ( !Sql.IsEmptyString(sSURVEY_TARGET_MODULE) && bIS_COMPLETE )
 				{
 					SurveyCreateLead build = new SurveyCreateLead(Sql, SqlProcs, XmlUtil, SplendidError, Modules, gID, gCURRENT_USER_ID, gCURRENT_TEAM_ID);
-					taskQueue.QueueBackgroundWorkItemAsync(build.Start);
+					await taskQueue.QueueBackgroundWorkItemAsync(build.Start);
 				}
 			}
 			catch(Exception ex)

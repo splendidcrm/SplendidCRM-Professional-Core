@@ -63,8 +63,9 @@ namespace SplendidCRM.Controllers.Administration.iContact
 			this.taskQueue           = taskQueue          ;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -118,8 +119,9 @@ namespace SplendidCRM.Controllers.Administration.iContact
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public async Task<string> Sync(Dictionary<string, object> dict)
+		public async Task<string> Sync([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -143,8 +145,9 @@ namespace SplendidCRM.Controllers.Administration.iContact
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public async Task<string> SyncAll(Dictionary<string, object> dict)
+		public async Task<string> SyncAll([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -174,8 +177,9 @@ namespace SplendidCRM.Controllers.Administration.iContact
 			public string ClientFolderID;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public iContactAccount GetAccount(Dictionary<string, object> dict)
+		public iContactAccount GetAccount([FromBody] Dictionary<string, object> dict)
 		{
 			iContactAccount account = null;
 			StringBuilder sbErrors = new StringBuilder();

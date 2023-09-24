@@ -64,8 +64,9 @@ namespace SplendidCRM.Controllers.Administration.PayPalTransactions
 			this.PayPalRest          = PayPalRest         ;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			if ( !Security.IsAuthenticated() || Security.AdminUserAccess(MODULE_NAME, "edit") < 0 )
 			{
@@ -144,7 +145,7 @@ namespace SplendidCRM.Controllers.Administration.PayPalTransactions
 		}
 
 		[HttpPost("[action]")]
-		public Dictionary<string, object> Transactions(Dictionary<string, object> dict)
+		public Dictionary<string, object> Transactions([FromBody] Dictionary<string, object> dict)
 		{
 			if ( !Security.IsAuthenticated() || Security.AdminUserAccess(MODULE_NAME, "edit") < 0 )
 			{
@@ -316,8 +317,9 @@ namespace SplendidCRM.Controllers.Administration.PayPalTransactions
 			return dict;
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Refund(Dictionary<string, object> dict)
+		public string Refund([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try

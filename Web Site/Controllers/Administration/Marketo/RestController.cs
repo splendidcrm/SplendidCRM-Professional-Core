@@ -63,9 +63,9 @@ namespace SplendidCRM.Controllers.Administration.Marketo
 			this.taskQueue           = taskQueue          ;
 		}
 
-
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public string Test(Dictionary<string, object> dict)
+		public string Test([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -119,8 +119,9 @@ namespace SplendidCRM.Controllers.Administration.Marketo
 			return sbErrors.ToString();
 		}
 
+		[DotNetLegacyData]
 		[HttpPost("[action]")]
-		public async Task<string> Sync(Dictionary<string, object> dict)
+		public async Task<string> Sync([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -145,7 +146,7 @@ namespace SplendidCRM.Controllers.Administration.Marketo
 		}
 
 		[HttpPost("[action]")]
-		public async Task<string> SyncAll(Dictionary<string, object> dict)
+		public async Task<string> SyncAll([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			try
@@ -177,7 +178,7 @@ namespace SplendidCRM.Controllers.Administration.Marketo
 		}
 
 		[HttpPost("[action]")]
-		public Dictionary<string, object> Authorize(Dictionary<string, object> dict)
+		public Dictionary<string, object> Authorize([FromBody] Dictionary<string, object> dict)
 		{
 			StringBuilder sbErrors = new StringBuilder();
 			MarketoToken token = new MarketoToken();
