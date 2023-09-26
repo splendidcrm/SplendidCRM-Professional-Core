@@ -75,7 +75,6 @@ namespace SplendidCRM
 					try
 					{
 						string sName = nameof(workItem);
-						_logger.LogInformation("Queued Hosted Service Processing {WorkItem}.", nameof(workItem));
 						Debug.WriteLine($"Queued Hosted Service Processing {sName}.");
 						SplendidError.SystemWarning(new StackTrace(true).GetFrame(0), $"Queued Hosted Service Processing {sName}.");
 #pragma warning disable CS4014

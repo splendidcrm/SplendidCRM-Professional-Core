@@ -84,7 +84,7 @@ namespace SplendidCRM
 				}
 				catch (Exception ex)
 				{
-					_logger.LogError($"Failure while processing ArchiveHostedService {ex}");
+					_logger.LogError($"Failure while processing EmailHostedService: {ex.Message}");
 					SplendidError.SystemError(new StackTrace(true).GetFrame(0), ex);
 				}
 			}
