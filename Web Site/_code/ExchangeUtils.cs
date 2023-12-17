@@ -32,7 +32,7 @@ using System.Diagnostics;
 using Microsoft.Exchange.WebServices.Data;
 using System.Security.Cryptography.X509Certificates;
 
-using Microsoft.AspNetCore.Http;
+using Spring.Social.Office365;
 
 namespace SplendidCRM
 {
@@ -52,13 +52,13 @@ namespace SplendidCRM
 		private SyncError            SyncError          ;
 		private ActiveDirectory      ActiveDirectory    ;
 		private ExchangeSecurity     ExchangeSecurity   ;
-		private Spring.Social.Office365.Office365Sync Office365Sync    ;
-		private SplendidCRM.Crm.Modules               Modules          ;
-		private SplendidCRM.Crm.Emails                Emails           ;
-		private SplendidCRM.Crm.EmailImages           EmailImages      ;
-		private SplendidCRM.Crm.NoteAttachments       NoteAttachments  ;
+		private Office365Sync        Office365Sync      ;
+		private Crm.Modules          Modules            ;
+		private Crm.Emails           Emails             ;
+		private Crm.EmailImages      EmailImages        ;
+		private Crm.NoteAttachments  NoteAttachments    ;
 
-		public ExchangeUtils(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, Utils Utils, SplendidError SplendidError, XmlUtil XmlUtil, MimeUtils MimeUtils, SyncError SyncError, ActiveDirectory ActiveDirectory, ExchangeSecurity ExchangeSecurity, Spring.Social.Office365.Office365Sync Office365Sync, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.Emails Emails, SplendidCRM.Crm.EmailImages EmailImages, SplendidCRM.Crm.NoteAttachments NoteAttachments)
+		public ExchangeUtils(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, Utils Utils, SplendidError SplendidError, XmlUtil XmlUtil, MimeUtils MimeUtils, SyncError SyncError, ActiveDirectory ActiveDirectory, ExchangeSecurity ExchangeSecurity, Office365Sync Office365Sync, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.Emails Emails, SplendidCRM.Crm.EmailImages EmailImages, SplendidCRM.Crm.NoteAttachments NoteAttachments)
 		{
 			this.Session             = Session            ;
 			this.Security            = Security           ;

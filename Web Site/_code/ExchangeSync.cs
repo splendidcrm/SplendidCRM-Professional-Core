@@ -35,6 +35,9 @@ using System.Diagnostics;
 using Microsoft.Exchange.WebServices.Data;
 using System.Security.Cryptography.X509Certificates;
 
+using Spring.Social.Office365;
+using Microsoft.AspNetCore.Http;
+
 namespace SplendidCRM
 {
 	public class ExchangeSync
@@ -51,11 +54,11 @@ namespace SplendidCRM
 		private SyncError            SyncError          ;
 		private ExchangeSecurity     ExchangeSecurity   ;
 		private ExchangeUtils        ExchangeUtils      ;
-		private SplendidCRM.Crm.Modules               Modules          ;
-		private SplendidCRM.Crm.NoteAttachments       NoteAttachments  ;
-		private Spring.Social.Office365.Office365Sync Office365Sync    ;
+		private Crm.Modules          Modules            ;
+		private Crm.NoteAttachments  NoteAttachments    ;
+		private Office365Sync        Office365Sync      ;
 
-		public ExchangeSync(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidCache SplendidCache,  XmlUtil XmlUtil, SyncError SyncError, ExchangeSecurity ExchangeSecurity,ExchangeUtils ExchangeUtils, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.NoteAttachments NoteAttachments, Spring.Social.Office365.Office365Sync Office365Sync)
+		public ExchangeSync(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidCache SplendidCache,  XmlUtil XmlUtil, SyncError SyncError, ExchangeSecurity ExchangeSecurity,ExchangeUtils ExchangeUtils, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.NoteAttachments NoteAttachments, Office365Sync Office365Sync)
 		{
 			this.Session             = Session            ;
 			this.Security            = Security           ;
@@ -2528,6 +2531,143 @@ namespace SplendidCRM
 						}
 					}
 				}
+			}
+		}
+
+		// 11/22/2023 Paul.  When unsyncing, we need to immediately clear the remote flag. 
+		public void UnsyncContact(Guid gUSER_ID, Guid gCONTACT_ID)
+		{
+			bool   bVERBOSE_STATUS      = Sql.ToBoolean(Application["CONFIG.Exchange.VerboseStatus"]);
+			string sSERVER_URL          = Sql.ToString (Application["CONFIG.Exchange.ServerURL"    ]);
+			string sUSER_NAME           = Sql.ToString (Application["CONFIG.Exchange.UserName"     ]);
+			string sOAUTH_CLIENT_ID     = Sql.ToString (Application["CONFIG.Exchange.ClientID"     ]);
+			string sOAUTH_CLIENT_SECRET = Sql.ToString (Application["CONFIG.Exchange.ClientSecret" ]);
+			if ( !Sql.IsEmptyString(sSERVER_URL) && (!Sql.IsEmptyString(sUSER_NAME) || !Sql.IsEmptyString(sOAUTH_CLIENT_ID) && !Sql.IsEmptyString(sOAUTH_CLIENT_SECRET)))
+			{
+				string sEXCHANGE_ALIAS = String.Empty;
+				try
+				{
+					DbProviderFactory dbf = DbProviderFactories.GetFactory();
+					using ( IDbConnection con = dbf.CreateConnection() )
+					{
+						con.Open();
+						String sSQL = String.Empty;
+						sSQL = "select EXCHANGE_ALIAS              " + ControlChars.CrLf
+						     + "  from vwEXCHANGE_USERS            " + ControlChars.CrLf
+						     + " where ASSIGNED_USER_ID  = @USER_ID" + ControlChars.CrLf;
+						using ( IDbCommand cmd = con.CreateCommand() )
+						{
+							cmd.CommandText = sSQL;
+							Sql.AddParameter(cmd, "@USER_ID", gUSER_ID);
+							sEXCHANGE_ALIAS = Sql.ToString(cmd.ExecuteScalar());
+						}
+						
+						sSQL = "select ID                                            " + ControlChars.CrLf
+						     + "     , SYNC_REMOTE_KEY                               " + ControlChars.CrLf
+						     + "  from vwCONTACTS_SYNC                               " + ControlChars.CrLf
+						     + " where SYNC_SERVICE_NAME     = N'Exchange'           " + ControlChars.CrLf
+						     + "   and SYNC_ASSIGNED_USER_ID = @SYNC_ASSIGNED_USER_ID" + ControlChars.CrLf
+						     + "   and SYNC_LOCAL_ID         = @SYNC_LOCAL_ID        " + ControlChars.CrLf;
+						using ( IDbCommand cmd = con.CreateCommand() )
+						{
+							cmd.CommandText = sSQL;
+							Sql.AddParameter(cmd, "@SYNC_ASSIGNED_USER_ID", gUSER_ID   );
+							Sql.AddParameter(cmd, "@SYNC_LOCAL_ID"        , gCONTACT_ID);
+							using ( DbDataAdapter da = dbf.CreateDataAdapter() )
+							{
+								((IDbDataAdapter)da).SelectCommand = cmd;
+								using ( DataTable dt = new DataTable() )
+								{
+									da.Fill(dt);
+									// 11/23/2023 Paul.  Noticed multiple sync records, so delete them all. 
+									foreach ( DataRow row in dt.Rows )
+									{
+										Guid   gID         = Sql.ToGuid  (row["ID"             ]);
+										string sREMOTE_KEY = Sql.ToString(row["SYNC_REMOTE_KEY"]);
+										if ( bVERBOSE_STATUS )
+											SyncError.SystemMessage("Warning", new StackTrace(true).GetFrame(0), "ExchangeSync.UnsyncContact: Unsyncing contact for " + sEXCHANGE_ALIAS + " to " + gCONTACT_ID.ToString());
+										
+										if ( !Sql.IsEmptyString(sSERVER_URL) && !Sql.IsEmptyString(sOAUTH_CLIENT_ID) && !Sql.IsEmptyString(sOAUTH_CLIENT_SECRET) )
+										{
+											Office365Sync.UnsyncContact(gUSER_ID, sEXCHANGE_ALIAS, gCONTACT_ID, sREMOTE_KEY);
+										}
+										else if ( !Sql.IsEmptyString(sSERVER_URL) && !Sql.IsEmptyString(sUSER_NAME) )
+										{
+											UnsyncContact(gUSER_ID, sEXCHANGE_ALIAS, gCONTACT_ID, sREMOTE_KEY);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				catch(Exception ex)
+				{
+					string sError = "ExchangeSync.UnsyncContact: for " + sEXCHANGE_ALIAS + " to " + gCONTACT_ID.ToString() + "." + ControlChars.CrLf;
+					sError += Utils.ExpandException(ex) + ControlChars.CrLf;
+					SyncError.SystemMessage("Error", new StackTrace(true).GetFrame(0), sError);
+					SplendidError.SystemMessage("Error", new StackTrace(true).GetFrame(0), sError);
+				}
+			}
+		}
+
+		// 11/22/2023 Paul.  When unsyncing, we need to immediately clear the remote flag. 
+		public void UnsyncContact(Guid gUSER_ID, string sEXCHANGE_ALIAS, Guid gCONTACT_ID, string sREMOTE_KEY)
+		{
+			try
+			{
+				ExchangeSync.UserSync User = ExchangeSync.UserSync.Create(Session, Security, Sql, SqlProcs, SplendidError, XmlUtil, SyncError, ExchangeSecurity, ExchangeUtils, this, gUSER_ID, false);
+				if ( User != null )
+				{
+					string sCONTACTS_CATEGORY     = Sql.ToString(Application["CONFIG.Exchange.Contacts.Category"]);
+					ExchangeSession       Session = ExchangeSecurity.LoadUserACL(gUSER_ID);
+					ExchangeService       service = ExchangeUtils.CreateExchangeService(User);
+					DbProviderFactory dbf = DbProviderFactories.GetFactory();
+					using ( IDbConnection con = dbf.CreateConnection() )
+					{
+						con.Open();
+						bool bVERBOSE_STATUS = Sql.ToBoolean(Application["CONFIG.Exchange.VerboseStatus"]);
+						if ( bVERBOSE_STATUS )
+							SyncError.SystemMessage("Warning", new StackTrace(true).GetFrame(0), "ExchangeSync.UnsyncContact: for " + sEXCHANGE_ALIAS + " to " + sREMOTE_KEY + ".");
+					
+						Contact contact = null;
+						try
+						{
+							contact = Contact.Bind(service, sREMOTE_KEY);
+						}
+						catch
+						{
+						}
+						if ( contact != null && contact.Categories.Contains(sCONTACTS_CATEGORY) )
+						{
+							if ( contact.Categories.Contains(sCONTACTS_CATEGORY) )
+							{
+								contact.Categories.Remove(sCONTACTS_CATEGORY);
+							}
+							contact.Update(ConflictResolutionMode.AlwaysOverwrite);
+							using ( IDbTransaction trn = Sql.BeginTransaction(con) )
+							{
+								try
+								{
+									SqlProcs.spCONTACTS_SYNC_Delete(gUSER_ID, gCONTACT_ID, sREMOTE_KEY, "Exchange", trn);
+									trn.Commit();
+								}
+								catch
+								{
+									trn.Rollback();
+									throw;
+								}
+							}
+						}
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				string sError = "ExchangeSync.UnsyncContact: for " + sEXCHANGE_ALIAS + " to " + sREMOTE_KEY + "." + ControlChars.CrLf;
+				sError += Utils.ExpandException(ex) + ControlChars.CrLf;
+				SyncError.SystemMessage("Error", new StackTrace(true).GetFrame(0), sError);
+				SplendidError.SystemMessage("Error", new StackTrace(true).GetFrame(0), sError);
 			}
 		}
 		#endregion

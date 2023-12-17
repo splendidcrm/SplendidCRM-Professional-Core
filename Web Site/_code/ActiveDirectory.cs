@@ -54,6 +54,8 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 
+using Spring.Social.Office365;
+
 namespace SplendidCRM
 {
 	[DataContract]
@@ -143,9 +145,9 @@ namespace SplendidCRM
 		private SqlProcs             SqlProcs           ;
 		private SplendidError        SplendidError      ;
 		private SplendidInit         SplendidInit       ;
-		private Spring.Social.Office365.Office365Sync Office365Sync      ;
+		private Office365Sync        Office365Sync      ;
 
-		public ActiveDirectory(IHttpContextAccessor httpContextAccessor, HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidInit SplendidInit, Spring.Social.Office365.Office365Sync Office365Sync)
+		public ActiveDirectory(IHttpContextAccessor httpContextAccessor, HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidInit SplendidInit, Office365Sync Office365Sync)
 		{
 			this.Context             = httpContextAccessor.HttpContext;
 			this.Session             = Session            ;

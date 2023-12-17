@@ -77,8 +77,8 @@ namespace SplendidCRM
 				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
 				try
 				{
-					_logger.LogDebug($"EmailHostedService.DoWork");
-					Debug.WriteLine($"EmailHostedService.DoWork");
+					_logger.LogDebug($"EmailHostedService.DoWork " + DateTime.Now.ToString());
+					Debug.WriteLine ($"EmailHostedService.DoWork " + DateTime.Now.ToString());
 					EmailUtils emailUtils = scope.ServiceProvider.GetRequiredService<EmailUtils>();
 					emailUtils.OnTimer();
 				}

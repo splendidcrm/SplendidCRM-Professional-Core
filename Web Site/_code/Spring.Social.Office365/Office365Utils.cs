@@ -32,6 +32,8 @@ using System.Diagnostics;
 
 using Microsoft.AspNetCore.Http;
 
+using Spring.Social.Office365;
+
 namespace SplendidCRM
 {
 	public class Office365Utils
@@ -46,10 +48,10 @@ namespace SplendidCRM
 		private MimeUtils            MimeUtils          ;
 		private ActiveDirectory      ActiveDirectory    ;
 		private SyncError            SyncError          ;
-		private SplendidCRM.Crm.NoteAttachments NoteAttachments ;
-		private Spring.Social.Office365.Office365Sync Office365Sync;
+		private Crm.NoteAttachments  NoteAttachments    ;
+		private Office365Sync        Office365Sync      ;
 
-		public Office365Utils(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, MimeUtils MimeUtils, ActiveDirectory ActiveDirectory, SyncError SyncError, SplendidCRM.Crm.NoteAttachments NoteAttachments, Spring.Social.Office365.Office365Sync Office365Sync)
+		public Office365Utils(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, MimeUtils MimeUtils, ActiveDirectory ActiveDirectory, SyncError SyncError, SplendidCRM.Crm.NoteAttachments NoteAttachments, Office365Sync Office365Sync)
 		{
 			this.Session             = Session            ;
 			this.Security            = Security           ;

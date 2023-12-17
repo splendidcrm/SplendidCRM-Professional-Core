@@ -3040,6 +3040,51 @@ namespace Spring.Social.Office365
 			}
 		}
 
+		// 11/22/2023 Paul.  When unsyncing, we need to immediately clear the remote flag. 
+		public void UnsyncContact(Guid gUSER_ID, string sEXCHANGE_ALIAS, Guid gCONTACT_ID, string sREMOTE_KEY)
+		{
+			try
+			{
+				ExchangeSession Session = ExchangeSecurity.LoadUserACL(gUSER_ID);
+				string sOAUTH_CLIENT_ID       = Sql.ToString(Application["CONFIG.Exchange.ClientID"         ]);
+				string sOAUTH_CLIENT_SECRET   = Sql.ToString(Application["CONFIG.Exchange.ClientSecret"     ]);
+				string sOAuthDirectoryTenatID = Sql.ToString(Application["CONFIG.Exchange.DirectoryTenantID"]);
+				string sCONTACTS_CATEGORY     = Sql.ToString(Application["CONFIG.Exchange.Contacts.Category"]);
+				Office365AccessToken token = this.Office365RefreshAccessToken( sOAuthDirectoryTenatID, sOAUTH_CLIENT_ID, sOAUTH_CLIENT_SECRET, gUSER_ID, false);
+				Spring.Social.Office365.Api.IOffice365 service = CreateApi(token.access_token);
+				SplendidCRM.DbProviderFactory dbf = DbProviderFactories.GetFactory();
+				using ( IDbConnection con = dbf.CreateConnection() )
+				{
+					con.Open();
+					bool bVERBOSE_STATUS = Sql.ToBoolean(Application["CONFIG.Exchange.VerboseStatus"]);
+					if ( bVERBOSE_STATUS )
+						SyncError.SystemMessage("Warning", new StackTrace(true).GetFrame(0), "Office365Sync.UnsyncContact: for " + sEXCHANGE_ALIAS + " to " + sREMOTE_KEY + ".");
+					
+					service.ContactOperations.Unsync(sREMOTE_KEY, sCONTACTS_CATEGORY);
+					using ( IDbTransaction trn = Sql.BeginTransaction(con) )
+					{
+						try
+						{
+							SqlProcs.spCONTACTS_SYNC_Delete(gUSER_ID, gCONTACT_ID, sREMOTE_KEY, "Exchange", trn);
+							trn.Commit();
+						}
+						catch
+						{
+							trn.Rollback();
+							throw;
+						}
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				string sError = "Office365Sync.UnsyncContact: for " + sEXCHANGE_ALIAS + " to " + sREMOTE_KEY + "." + ControlChars.CrLf;
+				sError += Utils.ExpandException(ex) + ControlChars.CrLf;
+				SyncError.SystemMessage("Error", new StackTrace(true).GetFrame(0), sError);
+				SplendidError.SystemMessage("Error", new StackTrace(true).GetFrame(0), sError);
+			}
+		}
+
 		public void ImportContact(Guid gUSER_ID, string sREMOTE_KEY)
 		{
 			string sEXCHANGE_ALIAS = String.Empty;;

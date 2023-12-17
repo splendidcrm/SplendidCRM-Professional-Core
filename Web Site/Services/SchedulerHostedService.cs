@@ -76,8 +76,8 @@ namespace SplendidCRM
 				SplendidError SplendidError = scope.ServiceProvider.GetRequiredService<SplendidError>();
 				try
 				{
-					_logger.LogDebug($"SchedulerHostedService.DoWork");
-					Debug.WriteLine($"SchedulerHostedService.DoWork");
+					_logger.LogDebug($"SchedulerHostedService.DoWork " + DateTime.Now.ToString());
+					Debug.WriteLine ($"SchedulerHostedService.DoWork " + DateTime.Now.ToString());
 					SchedulerUtils schedulerUtils = scope.ServiceProvider.GetRequiredService<SchedulerUtils>();
 					schedulerUtils.OnTimer();
 				}

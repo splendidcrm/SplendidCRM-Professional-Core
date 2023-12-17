@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Authorization;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 
+using Spring.Social.Office365;
+
 namespace SplendidCRM.Controllers.Users
 {
 	[Authorize]
@@ -41,8 +43,8 @@ namespace SplendidCRM.Controllers.Users
 	public class RestController : ControllerBase
 	{
 		private HttpContext          Context            ;
-		private SplendidCRM.DbProviderFactories  DbProviderFactories = new SplendidCRM.DbProviderFactories();
-		private HttpApplicationState Application        = new HttpApplicationState();
+		private DbProviderFactories  DbProviderFactories = new SplendidCRM.DbProviderFactories();
+		private HttpApplicationState Application         = new HttpApplicationState();
 		private HttpSessionState     Session            ;
 		private Security             Security           ;
 		private Sql                  Sql                ;
@@ -55,13 +57,14 @@ namespace SplendidCRM.Controllers.Users
 		private ActiveDirectory      ActiveDirectory    ;
 		private ExchangeSecurity     ExchangeSecurity   ;
 		private SyncError            SyncError          ;
-		private SplendidCRM.Crm.Modules               Modules          ;
-		private SplendidCRM.Crm.NoteAttachments       NoteAttachments  ;
-		private Spring.Social.Office365.Office365Sync Office365Sync    ;
+		private Crm.Modules          Modules            ;
+		private Crm.NoteAttachments  NoteAttachments    ;
+		private Office365Sync        Office365Sync      ;
 		private GoogleApps           GoogleApps         ;
 		private ExchangeUtils        ExchangeUtils      ;
+		private iCloudSync           iCloudSync         ;
 
-		public RestController(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidCache SplendidCache, EmailUtils EmailUtils, MimeUtils MimeUtils, ActiveDirectory ActiveDirectory, ExchangeSecurity ExchangeSecurity, SyncError SyncError, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.NoteAttachments NoteAttachments, Spring.Social.Office365.Office365Sync Office365Sync, GoogleApps GoogleApps, ExchangeUtils ExchangeUtils)
+		public RestController(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidCache SplendidCache, EmailUtils EmailUtils, MimeUtils MimeUtils, ActiveDirectory ActiveDirectory, ExchangeSecurity ExchangeSecurity, SyncError SyncError, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.NoteAttachments NoteAttachments, Office365Sync Office365Sync, GoogleApps GoogleApps, ExchangeUtils ExchangeUtils, iCloudSync iCloudSync)
 		{
 			this.Context             = this.HttpContext   ;
 			this.Session             = Session            ;
@@ -81,6 +84,7 @@ namespace SplendidCRM.Controllers.Users
 			this.Office365Sync       = Office365Sync      ;
 			this.GoogleApps          = GoogleApps         ;
 			this.ExchangeUtils       = ExchangeUtils      ;
+			this.iCloudSync          = iCloudSync         ;
 		}
 
 		private DataRow GetUser(Guid gID)
@@ -256,7 +260,7 @@ namespace SplendidCRM.Controllers.Users
 			
 			string sStatus = String.Empty;
 			StringBuilder sbErrors = new StringBuilder();
-			iCloudSync.Validate_iCloud(Application, sICLOUD_USERNAME, sICLOUD_PASSWORD, sbErrors);
+			iCloudSync.Validate_iCloud(sICLOUD_USERNAME, sICLOUD_PASSWORD, sbErrors);
 			if ( sbErrors.Length > 0 )
 			{
 				sStatus = sbErrors.ToString();

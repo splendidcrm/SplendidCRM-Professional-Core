@@ -123,6 +123,8 @@ namespace Spring.Social.Office365.Api.Impl
 			jsonMapper.RegisterDeserializer(typeof(EntityPagination            ), new EntityPaginationDeserializer         ());
 			jsonMapper.RegisterDeserializer(typeof(IList<OutlookItem>          ), new OutlookItemDeserializer              ());
 			jsonMapper.RegisterDeserializer(typeof(OutlookItemPagination       ), new OutlookItemPaginationDeserializer    ());
+			// 11/22/2023 Paul.  When unsyncing, we need to immediately clear the remote flag. 
+			jsonMapper.RegisterSerializer  (typeof(OutlookItem                 ), new OutlookItemSerializer                ());
 
 			// Mail
 			jsonMapper.RegisterDeserializer(typeof(EmailAddress                ), new EmailAddressDeserializer             ());

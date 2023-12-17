@@ -39,6 +39,8 @@ using MailKit.Net.Imap;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 
+using Spring.Social.Office365;
+
 namespace SplendidCRM.Controllers.Administration.InboundEmail
 {
 	[Authorize]
@@ -66,15 +68,15 @@ namespace SplendidCRM.Controllers.Administration.InboundEmail
 		private XmlUtil              XmlUtil            ;
 		private ActiveDirectory      ActiveDirectory    ;
 		private SyncError            SyncError          ;
-		private SplendidCRM.Crm.Modules               Modules          ;
-		private SplendidCRM.Crm.NoteAttachments       NoteAttachments  ;
-		private Spring.Social.Office365.Office365Sync Office365Sync    ;
+		private Crm.Modules          Modules            ;
+		private Crm.NoteAttachments  NoteAttachments    ;
+		private Office365Sync        Office365Sync      ;
 		private GoogleApps           GoogleApps         ;
 		private ExchangeSecurity     ExchangeSecurity   ;
 		private ExchangeUtils        ExchangeUtils      ;
 		private ExchangeSync         ExchangeSync       ;
 
-		public RestController (HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidCache SplendidCache, PopUtils PopUtils, ImapUtils ImapUtils, EmailUtils EmailUtils, MimeUtils MimeUtils, XmlUtil XmlUtil, ActiveDirectory ActiveDirectory, SyncError SyncError, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.NoteAttachments NoteAttachments, Spring.Social.Office365.Office365Sync Office365Sync, GoogleApps GoogleApps, ExchangeSecurity ExchangeSecurity, ExchangeUtils ExchangeUtils, ExchangeSync ExchangeSync)
+		public RestController (HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SplendidCache SplendidCache, PopUtils PopUtils, ImapUtils ImapUtils, EmailUtils EmailUtils, MimeUtils MimeUtils, XmlUtil XmlUtil, ActiveDirectory ActiveDirectory, SyncError SyncError, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.NoteAttachments NoteAttachments, Office365Sync Office365Sync, GoogleApps GoogleApps, ExchangeSecurity ExchangeSecurity, ExchangeUtils ExchangeUtils, ExchangeSync ExchangeSync)
 		{
 			this.Context             = this.HttpContext   ;
 			this.Session             = Session            ;

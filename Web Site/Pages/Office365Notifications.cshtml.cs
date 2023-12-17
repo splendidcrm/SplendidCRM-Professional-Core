@@ -46,11 +46,11 @@ namespace SplendidCRM.Pages
 		private SqlProcs             SqlProcs           ;
 		private SplendidError        SplendidError      ;
 		private SyncError            SyncError          ;
-		private SplendidCRM.Crm.Modules          Modules          ;
-		private Spring.Social.Office365.Office365Sync Office365Sync;
+		private Crm.Modules          Modules            ;
+		private Office365Sync        Office365Sync      ;
 		private IBackgroundTaskQueue taskQueue          ;
 
-		public Office365NotificationsModel(IHttpContextAccessor httpContextAccessor, HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SyncError SyncError, SplendidCRM.Crm.Modules Modules, Spring.Social.Office365.Office365Sync Office365Sync, IBackgroundTaskQueue taskQueue)
+		public Office365NotificationsModel(IHttpContextAccessor httpContextAccessor, HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidError SplendidError, SyncError SyncError, SplendidCRM.Crm.Modules Modules, Office365Sync Office365Sync, IBackgroundTaskQueue taskQueue)
 		{
 			this.Context             = httpContextAccessor.HttpContext;
 			this.Session             = Session            ;

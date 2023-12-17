@@ -1,6 +1,11 @@
 # SplendidCRM Professional Core
-## Get Started
+## Licensing and Release notice
 
+SplendidCRM Professional Core is provided here to allow you to evaluate the software.  It is still governed under the SplendidCRM Source Code License, so it is not free.  If you use this software in production, you are expected to obtain a license for each user.
+
+SplendidCRM Professional Core is beta software.  It has not been fully regression tested and it is using a third-party reporting engine that also has not been fully tested.  We do not recommend that you use this application in production.
+
+## Get Started
 The quickest way to get started is to request our installer. The installer will do practically everything you need to get a SplendidCRM Professional Core site up and running, with the exception of installing SQL Server Express. Or, you can download the latest from GitHub and build the app yourself.
 
 You can also use Docker to get started.  We have provided a composer file that will create an instance of SQL Server 2022 to get you going quickly.

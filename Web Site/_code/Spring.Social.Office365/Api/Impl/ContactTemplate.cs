@@ -192,5 +192,29 @@ namespace Spring.Social.Office365.Api.Impl
 			string sURL = "/v1.0/me/contacts/" + id;
 			this.restTemplate.Delete(sURL);
 		}
+
+		// 11/22/2023 Paul.  When unsyncing, we need to immediately clear the remote flag. 
+		public virtual void Unsync(string id, string sCONTACTS_CATEGORY)
+		{
+			if ( !Sql.IsEmptyString(sCONTACTS_CATEGORY) )
+			{
+				string sURL = "/v1.0/me/contacts/" + id + "?select=id,createdDateTime,lastModifiedDateTime,changeKey,categories";
+				OutlookItem obj = this.restTemplate.GetForObject<OutlookItem>(sURL);
+				List<String> lstCategories = new List<String>();
+				bool bUpdate = false;
+				if ( obj.Categories.Contains(sCONTACTS_CATEGORY) )
+				{
+					obj.Categories.Remove(sCONTACTS_CATEGORY);
+						bUpdate = true;
+				}
+				if ( bUpdate )
+				{
+					sURL = "/v1.0/me/contacts/" + obj.Id;
+					HttpEntityRequestCallback requestCallback = new HttpEntityRequestCallback(obj, typeof(OutlookItem), this.restTemplate.MessageConverters);
+					MessageConverterResponseExtractor<OutlookItem> responseExtractor = new MessageConverterResponseExtractor<OutlookItem>(this.restTemplate.MessageConverters);
+					this.restTemplate.Execute<OutlookItem>(sURL, HttpMethod.PATCH, requestCallback, responseExtractor);
+				}
+			}
+		}
 	}
 }

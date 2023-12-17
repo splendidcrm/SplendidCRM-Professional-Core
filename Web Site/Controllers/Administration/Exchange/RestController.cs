@@ -34,7 +34,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 
-using SplendidCRM;
+using Spring.Social.Office365;
 
 namespace SplendidCRM.Controllers.Administration.Exchange
 {
@@ -57,14 +57,14 @@ namespace SplendidCRM.Controllers.Administration.Exchange
 		private SplendidError        SplendidError      ;
 		private XmlUtil              XmlUtil            ;
 		private SyncError            SyncError          ;
-		private SplendidCRM.Crm.Modules               Modules          ;
-		private SplendidCRM.Crm.NoteAttachments       NoteAttachments  ;
-		private Spring.Social.Office365.Office365Sync Office365Sync    ;
+		private Crm.Modules          Modules            ;
+		private Crm.NoteAttachments  NoteAttachments    ;
+		private Office365Sync        Office365Sync      ;
 		private ExchangeSecurity     ExchangeSecurity   ;
 		private ExchangeUtils        ExchangeUtils      ;
 		private ExchangeSync         ExchangeSync       ;
 
-		public ExchangeRestController(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidCache SplendidCache, SplendidError SplendidError, XmlUtil XmlUtil, SyncError SyncError, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.NoteAttachments NoteAttachments, Spring.Social.Office365.Office365Sync Office365Sync, ExchangeSecurity ExchangeSecurity, ExchangeUtils ExchangeUtils, ExchangeSync ExchangeSync)
+		public ExchangeRestController(HttpSessionState Session, Security Security, Sql Sql, SqlProcs SqlProcs, SplendidCache SplendidCache, SplendidError SplendidError, XmlUtil XmlUtil, SyncError SyncError, SplendidCRM.Crm.Modules Modules, SplendidCRM.Crm.NoteAttachments NoteAttachments, Office365Sync Office365Sync, ExchangeSecurity ExchangeSecurity, ExchangeUtils ExchangeUtils, ExchangeSync ExchangeSync)
 		{
 			this.Session             = Session            ;
 			this.Security            = Security           ;

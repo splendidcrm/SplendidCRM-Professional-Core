@@ -37,7 +37,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 
-using SplendidCRM;
+using Spring.Social.Office365;
 
 namespace SplendidCRM.Controllers.Administration.OutboundEmail
 {
@@ -56,12 +56,12 @@ namespace SplendidCRM.Controllers.Administration.OutboundEmail
 		private SqlProcs             SqlProcs           ;
 		private EmailUtils           EmailUtils         ;
 		private ActiveDirectory      ActiveDirectory    ;
-		private Spring.Social.Office365.Office365Sync Office365Sync    ;
+		private Office365Sync        Office365Sync      ;
 		private GoogleApps           GoogleApps         ;
 		private ExchangeUtils        ExchangeUtils      ;
 		private Office365Utils       Office365Utils     ;
 
-		public RestController(HttpSessionState Session, Security Security, EmailUtils EmailUtils, ActiveDirectory ActiveDirectory, Spring.Social.Office365.Office365Sync Office365Sync, GoogleApps GoogleApps, ExchangeUtils ExchangeUtils, Office365Utils Office365Utils)
+		public RestController(HttpSessionState Session, Security Security, EmailUtils EmailUtils, ActiveDirectory ActiveDirectory, Office365Sync Office365Sync, GoogleApps GoogleApps, ExchangeUtils ExchangeUtils, Office365Utils Office365Utils)
 		{
 			this.Session             = Session            ;
 			this.Security            = Security           ;

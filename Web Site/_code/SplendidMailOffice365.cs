@@ -32,11 +32,11 @@ namespace SplendidCRM
 	public class SplendidMailOffice365 : SplendidMailClient
 	{
 		private HttpApplicationState Application        = new HttpApplicationState();
-		private Spring.Social.Office365.Office365Sync Office365Sync    ;
+		private Office365Sync Office365Sync    ;
 
 		private Office365AccessToken token;
 
-		public SplendidMailOffice365(Spring.Social.Office365.Office365Sync Office365Sync, Guid gOAUTH_TOKEN_ID)
+		public SplendidMailOffice365(Office365Sync Office365Sync, Guid gOAUTH_TOKEN_ID)
 		{
 			this.Office365Sync = Office365Sync;
 
