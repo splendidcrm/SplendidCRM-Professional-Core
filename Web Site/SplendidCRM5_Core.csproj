@@ -115,6 +115,8 @@
     <Compile Include="_code\Google.Apis\Contacts.v3\Data\HttpRequestMessageExtenstions.cs" />
     <Compile Include="_code\Google.Apis\Contacts.v3\GroupsResource.cs" />
     <Compile Include="_code\Google.Apis\Google.Apis.Calendar.v3.cs" />
+    <Compile Include="_code\SignalR\ChatManager.cs" />
+    <Compile Include="_code\SignalR\ChatManagerHub.cs" />
     <Compile Include="_code\SignalR\TwilioManager.cs" />
     <Compile Include="_code\SignalR\TwilioManagerHub.cs" />
   </ItemGroup>
