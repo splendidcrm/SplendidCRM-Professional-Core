@@ -47307,7 +47307,7 @@ namespace SplendidCRM
 								cmd.CommandText = "spINBOUND_EMAILS_ExchangeWatermark";
 							IDbDataParameter parID                 = Sql.AddParameter(cmd, "@ID"                , gID                  );
 							IDbDataParameter parMODIFIED_USER_ID   = Sql.AddParameter(cmd, "@MODIFIED_USER_ID"  ,  Security.USER_ID    );
-							IDbDataParameter parEXCHANGE_WATERMARK = Sql.AddAnsiParam(cmd, "@EXCHANGE_WATERMARK", sEXCHANGE_WATERMARK  , 100);
+							IDbDataParameter parEXCHANGE_WATERMARK = Sql.AddAnsiParam(cmd, "@EXCHANGE_WATERMARK", sEXCHANGE_WATERMARK  , 1000);
 							cmd.ExecuteNonQuery();
 						}
 						trn.Commit();
@@ -47339,7 +47339,7 @@ namespace SplendidCRM
 					cmd.CommandText = "spINBOUND_EMAILS_ExchangeWatermark";
 				IDbDataParameter parID                 = Sql.AddParameter(cmd, "@ID"                , gID                  );
 				IDbDataParameter parMODIFIED_USER_ID   = Sql.AddParameter(cmd, "@MODIFIED_USER_ID"  ,  Security.USER_ID    );
-				IDbDataParameter parEXCHANGE_WATERMARK = Sql.AddAnsiParam(cmd, "@EXCHANGE_WATERMARK", sEXCHANGE_WATERMARK  , 100);
+				IDbDataParameter parEXCHANGE_WATERMARK = Sql.AddAnsiParam(cmd, "@EXCHANGE_WATERMARK", sEXCHANGE_WATERMARK  , 1000);
 				Sql.Trace(cmd);
 				cmd.ExecuteNonQuery();
 			}
@@ -47360,7 +47360,7 @@ namespace SplendidCRM
 				cmd.CommandText = "spINBOUND_EMAILS_ExchangeWatermark";
 			IDbDataParameter parID                 = Sql.CreateParameter(cmd, "@ID"                , "Guid",  16);
 			IDbDataParameter parMODIFIED_USER_ID   = Sql.CreateParameter(cmd, "@MODIFIED_USER_ID"  , "Guid",  16);
-			IDbDataParameter parEXCHANGE_WATERMARK = Sql.CreateParameter(cmd, "@EXCHANGE_WATERMARK", "ansistring", 100);
+			IDbDataParameter parEXCHANGE_WATERMARK = Sql.CreateParameter(cmd, "@EXCHANGE_WATERMARK", "ansistring", 1000);
 			return cmd;
 		}
 		#endregion
@@ -81854,6 +81854,184 @@ namespace SplendidCRM
 		}
 		#endregion
 
+		#region spREPLICATION_TABLES_Update
+		/// <summary>
+		/// spREPLICATION_TABLES_Update
+		/// </summary>
+		public void spREPLICATION_TABLES_Update(ref Guid gID, string sTABLE_NAME, Int32 nLOCAL_COUNT, DateTime dtLOCAL_LAST_MODIFIED, Int32 nREMOTE_COUNT, DateTime dtREMOTE_LAST_MODIFIED)
+		{
+			DbProviderFactory dbf = DbProviderFactories.GetFactory();
+			using ( IDbConnection con = dbf.CreateConnection() )
+			{
+				con.Open();
+				using ( IDbTransaction trn = Sql.BeginTransaction(con) )
+				{
+					try
+					{
+						using ( IDbCommand cmd = con.CreateCommand() )
+						{
+							cmd.Transaction = trn;
+							cmd.CommandType = CommandType.StoredProcedure;
+							cmd.CommandText = "spREPLICATION_TABLES_Update";
+							IDbDataParameter parID                   = Sql.AddParameter(cmd, "@ID"                  , gID                    );
+							IDbDataParameter parMODIFIED_USER_ID     = Sql.AddParameter(cmd, "@MODIFIED_USER_ID"    ,  Security.USER_ID      );
+							IDbDataParameter parTABLE_NAME           = Sql.AddParameter(cmd, "@TABLE_NAME"          , sTABLE_NAME            ,  50);
+							IDbDataParameter parLOCAL_COUNT          = Sql.AddParameter(cmd, "@LOCAL_COUNT"         , nLOCAL_COUNT           );
+							IDbDataParameter parLOCAL_LAST_MODIFIED  = Sql.AddParameter(cmd, "@LOCAL_LAST_MODIFIED" , dtLOCAL_LAST_MODIFIED  );
+							IDbDataParameter parREMOTE_COUNT         = Sql.AddParameter(cmd, "@REMOTE_COUNT"        , nREMOTE_COUNT          );
+							IDbDataParameter parREMOTE_LAST_MODIFIED = Sql.AddParameter(cmd, "@REMOTE_LAST_MODIFIED", dtREMOTE_LAST_MODIFIED );
+							parID.Direction = ParameterDirection.InputOutput;
+							cmd.ExecuteNonQuery();
+							gID = Sql.ToGuid(parID.Value);
+						}
+						trn.Commit();
+					}
+					catch
+					{
+						trn.Rollback();
+						throw;
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region spREPLICATION_TABLES_Update
+		/// <summary>
+		/// spREPLICATION_TABLES_Update
+		/// </summary>
+		public void spREPLICATION_TABLES_Update(ref Guid gID, string sTABLE_NAME, Int32 nLOCAL_COUNT, DateTime dtLOCAL_LAST_MODIFIED, Int32 nREMOTE_COUNT, DateTime dtREMOTE_LAST_MODIFIED, IDbTransaction trn)
+		{
+			IDbConnection con = trn.Connection;
+			using ( IDbCommand cmd = con.CreateCommand() )
+			{
+				cmd.Transaction = trn;
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.CommandText = "spREPLICATION_TABLES_Update";
+				IDbDataParameter parID                   = Sql.AddParameter(cmd, "@ID"                  , gID                    );
+				IDbDataParameter parMODIFIED_USER_ID     = Sql.AddParameter(cmd, "@MODIFIED_USER_ID"    ,  Security.USER_ID      );
+				IDbDataParameter parTABLE_NAME           = Sql.AddParameter(cmd, "@TABLE_NAME"          , sTABLE_NAME            ,  50);
+				IDbDataParameter parLOCAL_COUNT          = Sql.AddParameter(cmd, "@LOCAL_COUNT"         , nLOCAL_COUNT           );
+				IDbDataParameter parLOCAL_LAST_MODIFIED  = Sql.AddParameter(cmd, "@LOCAL_LAST_MODIFIED" , dtLOCAL_LAST_MODIFIED  );
+				IDbDataParameter parREMOTE_COUNT         = Sql.AddParameter(cmd, "@REMOTE_COUNT"        , nREMOTE_COUNT          );
+				IDbDataParameter parREMOTE_LAST_MODIFIED = Sql.AddParameter(cmd, "@REMOTE_LAST_MODIFIED", dtREMOTE_LAST_MODIFIED );
+				parID.Direction = ParameterDirection.InputOutput;
+				Sql.Trace(cmd);
+				cmd.ExecuteNonQuery();
+				gID = Sql.ToGuid(parID.Value);
+			}
+		}
+		#endregion
+
+		#region cmdREPLICATION_TABLES_Update
+		/// <summary>
+		/// spREPLICATION_TABLES_Update
+		/// </summary>
+		public IDbCommand cmdREPLICATION_TABLES_Update(IDbConnection con)
+		{
+			IDbCommand cmd = con.CreateCommand();
+			cmd.CommandType = CommandType.StoredProcedure;
+			cmd.CommandText = "spREPLICATION_TABLES_Update";
+			IDbDataParameter parID                   = Sql.CreateParameter(cmd, "@ID"                  , "Guid",  16);
+			IDbDataParameter parMODIFIED_USER_ID     = Sql.CreateParameter(cmd, "@MODIFIED_USER_ID"    , "Guid",  16);
+			IDbDataParameter parTABLE_NAME           = Sql.CreateParameter(cmd, "@TABLE_NAME"          , "string",  50);
+			IDbDataParameter parLOCAL_COUNT          = Sql.CreateParameter(cmd, "@LOCAL_COUNT"         , "Int32",   4);
+			IDbDataParameter parLOCAL_LAST_MODIFIED  = Sql.CreateParameter(cmd, "@LOCAL_LAST_MODIFIED" , "DateTime",   8);
+			IDbDataParameter parREMOTE_COUNT         = Sql.CreateParameter(cmd, "@REMOTE_COUNT"        , "Int32",   4);
+			IDbDataParameter parREMOTE_LAST_MODIFIED = Sql.CreateParameter(cmd, "@REMOTE_LAST_MODIFIED", "DateTime",   8);
+			parID.Direction = ParameterDirection.InputOutput;
+			return cmd;
+		}
+		#endregion
+
+		#region spREPLICATION_TABLES_UpdateStatus
+		/// <summary>
+		/// spREPLICATION_TABLES_UpdateStatus
+		/// </summary>
+		public void spREPLICATION_TABLES_UpdateStatus(string sTABLE_NAME, string sSTATUS, Int32 nPENDING_COUNT, string sLAST_ERROR)
+		{
+			DbProviderFactory dbf = DbProviderFactories.GetFactory();
+			using ( IDbConnection con = dbf.CreateConnection() )
+			{
+				con.Open();
+				using ( IDbTransaction trn = Sql.BeginTransaction(con) )
+				{
+					try
+					{
+						using ( IDbCommand cmd = con.CreateCommand() )
+						{
+							cmd.Transaction = trn;
+							cmd.CommandType = CommandType.StoredProcedure;
+							if ( Sql.IsOracle(cmd) )
+								cmd.CommandText = "spREPLICATION_TABLES_UpdateSta";
+							else
+								cmd.CommandText = "spREPLICATION_TABLES_UpdateStatus";
+							IDbDataParameter parMODIFIED_USER_ID = Sql.AddParameter(cmd, "@MODIFIED_USER_ID",  Security.USER_ID  );
+							IDbDataParameter parTABLE_NAME       = Sql.AddParameter(cmd, "@TABLE_NAME"      , sTABLE_NAME        ,  50);
+							IDbDataParameter parSTATUS           = Sql.AddParameter(cmd, "@STATUS"          , sSTATUS            ,  25);
+							IDbDataParameter parPENDING_COUNT    = Sql.AddParameter(cmd, "@PENDING_COUNT"   , nPENDING_COUNT     );
+							IDbDataParameter parLAST_ERROR       = Sql.AddParameter(cmd, "@LAST_ERROR"      , sLAST_ERROR        );
+							cmd.ExecuteNonQuery();
+						}
+						trn.Commit();
+					}
+					catch
+					{
+						trn.Rollback();
+						throw;
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region spREPLICATION_TABLES_UpdateStatus
+		/// <summary>
+		/// spREPLICATION_TABLES_UpdateStatus
+		/// </summary>
+		public void spREPLICATION_TABLES_UpdateStatus(string sTABLE_NAME, string sSTATUS, Int32 nPENDING_COUNT, string sLAST_ERROR, IDbTransaction trn)
+		{
+			IDbConnection con = trn.Connection;
+			using ( IDbCommand cmd = con.CreateCommand() )
+			{
+				cmd.Transaction = trn;
+				cmd.CommandType = CommandType.StoredProcedure;
+				if ( Sql.IsOracle(cmd) )
+					cmd.CommandText = "spREPLICATION_TABLES_UpdateSta";
+				else
+					cmd.CommandText = "spREPLICATION_TABLES_UpdateStatus";
+				IDbDataParameter parMODIFIED_USER_ID = Sql.AddParameter(cmd, "@MODIFIED_USER_ID",  Security.USER_ID  );
+				IDbDataParameter parTABLE_NAME       = Sql.AddParameter(cmd, "@TABLE_NAME"      , sTABLE_NAME        ,  50);
+				IDbDataParameter parSTATUS           = Sql.AddParameter(cmd, "@STATUS"          , sSTATUS            ,  25);
+				IDbDataParameter parPENDING_COUNT    = Sql.AddParameter(cmd, "@PENDING_COUNT"   , nPENDING_COUNT     );
+				IDbDataParameter parLAST_ERROR       = Sql.AddParameter(cmd, "@LAST_ERROR"      , sLAST_ERROR        );
+				Sql.Trace(cmd);
+				cmd.ExecuteNonQuery();
+			}
+		}
+		#endregion
+
+		#region cmdREPLICATION_TABLES_UpdateStatus
+		/// <summary>
+		/// spREPLICATION_TABLES_UpdateStatus
+		/// </summary>
+		public IDbCommand cmdREPLICATION_TABLES_UpdateStatus(IDbConnection con)
+		{
+			IDbCommand cmd = con.CreateCommand();
+			cmd.CommandType = CommandType.StoredProcedure;
+			if ( Sql.IsOracle(cmd) )
+				cmd.CommandText = "spREPLICATION_TABLES_UpdateSta";
+			else
+				cmd.CommandText = "spREPLICATION_TABLES_UpdateStatus";
+			IDbDataParameter parMODIFIED_USER_ID = Sql.CreateParameter(cmd, "@MODIFIED_USER_ID", "Guid",  16);
+			IDbDataParameter parTABLE_NAME       = Sql.CreateParameter(cmd, "@TABLE_NAME"      , "string",  50);
+			IDbDataParameter parSTATUS           = Sql.CreateParameter(cmd, "@STATUS"          , "string",  25);
+			IDbDataParameter parPENDING_COUNT    = Sql.CreateParameter(cmd, "@PENDING_COUNT"   , "Int32",   4);
+			IDbDataParameter parLAST_ERROR       = Sql.CreateParameter(cmd, "@LAST_ERROR"      , "string", 104857600);
+			return cmd;
+		}
+		#endregion
+
 		#region spREPORTS_Delete
 		/// <summary>
 		/// spREPORTS_Delete
@@ -107985,6 +108163,7 @@ namespace SplendidCRM
 				cmd.CommandText = "spWORKFLOW_EVENTS_Delete";
 				IDbDataParameter parID               = Sql.AddParameter(cmd, "@ID"              , gID                );
 				IDbDataParameter parMODIFIED_USER_ID = Sql.AddParameter(cmd, "@MODIFIED_USER_ID",  Security.USER_ID  );
+				Sql.Trace(cmd);
 				cmd.ExecuteNonQuery();
 			}
 		}
@@ -108050,6 +108229,7 @@ namespace SplendidCRM
 				cmd.Transaction = trn;
 				cmd.CommandType = CommandType.StoredProcedure;
 				cmd.CommandText = "spWORKFLOW_EVENTS_ProcessAll";
+				Sql.Trace(cmd);
 				cmd.ExecuteNonQuery();
 			}
 		}
@@ -109301,6 +109481,8 @@ namespace SplendidCRM
 				case "SPRELEASES_MASSDELETE"                    :  cmd = cmdRELEASES_MassDelete                    (con);  break;
 				case "SPRELEASES_MASSUPDATE"                    :  cmd = cmdRELEASES_MassUpdate                    (con);  break;
 				case "SPRELEASES_UPDATE"                        :  cmd = cmdRELEASES_Update                        (con);  break;
+				case "SPREPLICATION_TABLES_UPDATE"              :  cmd = cmdREPLICATION_TABLES_Update              (con);  break;
+				case "SPREPLICATION_TABLES_UPDATESTATUS"        :  cmd = cmdREPLICATION_TABLES_UpdateStatus        (con);  break;
 				case "SPREPORTS_DELETE"                         :  cmd = cmdREPORTS_Delete                         (con);  break;
 				case "SPREPORTS_INSERTONLY"                     :  cmd = cmdREPORTS_InsertOnly                     (con);  break;
 				case "SPREPORTS_MASSASSIGN"                     :  cmd = cmdREPORTS_MassAssign                     (con);  break;
